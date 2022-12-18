@@ -1,3 +1,65 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+  @apply font-segoe;
+}
+
+@layer components {
+  .hoverAnimation {
+    @apply cursor-pointer rounded-full transition-all duration-200 hover:bg-hoverLight dark:hover:bg-hoverDark;
+  }
+
+  .btn-side {
+    @apply h-8 w-8 cursor-pointer text-black opacity-70 transition-all duration-300 ease-out active:scale-125
+   dark:text-white;
+  }
+
+  .post-icon {
+    @apply flex h-9 w-9 cursor-pointer items-center justify-center rounded-full transition ease-out hover:bg-[#1d9bf0] hover:bg-opacity-10;
+  }
+
+  .page {
+    @apply w-screen bg-slate-100 dark:bg-dark dark:text-white;
+  }
+  .btn-top {
+    @apply h-6 w-6 cursor-pointer text-accent transition-all ease-out hover:scale-105 active:scale-125 dark:text-accentLight;
+  }
+
+  .btn-login-right {
+    @apply hoverAnimation mx-3 mt-2 flex h-[35px] items-center justify-center
+    space-x-2 rounded-full border text-sm font-semibold;
+  }
+
+  .border-layout {
+    @apply border-borderLight dark:border-borderDark;
+  }
+
+  .content-title {
+    @apply ml-6 text-[19px] font-bold dark:text-white;
+  }
+
+  .post-btn-transition {
+    @apply transition-all duration-200 ease-in hover:scale-105 hover:bg-accent active:scale-110;
+  }
+
+  .postcard-btn {
+    @apply h-6 w-6;
+  }
+
+  .tooltip {
+    @apply relative before:invisible before:absolute before:left-1/2 
+    before:-bottom-3 before:z-10 before:w-max before:max-w-xs 
+    before:-translate-x-1/2 before:translate-y-full before:rounded-lg before:bg-gray-700 
+    before:px-2 before:py-1.5 before:text-[12px] before:font-semibold  before:text-white
+    before:content-[attr(data-tip)] after:invisible after:absolute after:left-1/2 after:-bottom-3 after:z-10 
+    after:h-0 after:w-0 after:-translate-x-1/2  after:border-8
+    after:border-b-gray-700 after:border-l-transparent after:border-t-transparent 
+    after:border-r-transparent hover:before:visible hover:after:visible;
+  }
+
+  .mid-content {
+    @apply border-layout mr-2 flex h-full max-w-[780px] flex-col border-r dark:bg-dark;
+  }
+}
