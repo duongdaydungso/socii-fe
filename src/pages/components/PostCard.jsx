@@ -8,11 +8,7 @@ import {
 } from "react-icons/bs";
 
 const PostCard = (/*post*/) => {
-<<<<<<< HEAD
   const sessionUIDEqualsPOSTUID = true;
-=======
-  const sessionUIDEqualsPOSTUID = false;
->>>>>>> 823e50f9932d75c387dd3f85f2017e80fc988e15
   const liked = false;
 
   const post = {
@@ -48,14 +44,10 @@ const PostCard = (/*post*/) => {
             <span className="text-xs opacity-60">{post.timestamp} ago</span>
           </div>
 
-<<<<<<< HEAD
           <div
             className="tooltip group ml-auto mt-[1px] flex-shrink-0 pr-2"
             data-tip="More"
           >
-=======
-          <div className="group ml-auto mt-[1px] flex-shrink-0 pr-2">
->>>>>>> 823e50f9932d75c387dd3f85f2017e80fc988e15
             <HiDotsHorizontal className="h-5 text-[#6e767d] group-hover:text-[#1d9bf0]" />
           </div>
         </div>
@@ -68,14 +60,10 @@ const PostCard = (/*post*/) => {
         <div className="mt-1 -mb-3 flex justify-between pr-2">
           {/* Comment */}
           <div className="group flex items-center space-x-1 ">
-<<<<<<< HEAD
             <div
               className="post-icon tooltip group-hover:bg-[#1d9bf0] group-hover:bg-opacity-10"
               data-tip="Comment"
             >
-=======
-            <div className="post-icon group-hover:bg-[#1d9bf0] group-hover:bg-opacity-10">
->>>>>>> 823e50f9932d75c387dd3f85f2017e80fc988e15
               <BsChat className="h-5 group-hover:text-[#1d9bf0]" />
             </div>
             {post.comments.length > 0 && (
@@ -86,14 +74,10 @@ const PostCard = (/*post*/) => {
           </div>
           {/* Like */}
           <div className="group flex items-center space-x-1">
-<<<<<<< HEAD
             <div
               className="post-icon tooltip group-hover:bg-pink-600/10"
               data-tip="Like"
             >
-=======
-            <div className="post-icon group-hover:bg-pink-600/10">
->>>>>>> 823e50f9932d75c387dd3f85f2017e80fc988e15
               {liked ? (
                 <BsFillHeartFill className="h-5 text-pink-600" />
               ) : (
@@ -111,11 +95,7 @@ const PostCard = (/*post*/) => {
             )}
           </div>
           {/* ShareLink */}
-<<<<<<< HEAD
           <div className="post-icon tooltip group" data-tip="Share">
-=======
-          <div className="post-icon group">
->>>>>>> 823e50f9932d75c387dd3f85f2017e80fc988e15
             <BsShare className="h-5 group-hover:text-[#1d9bf0]" />
           </div>
           {/* Share/Delete*/}
@@ -124,27 +104,19 @@ const PostCard = (/*post*/) => {
               className="group flex items-center space-x-1"
               onClick={() => {}}
             >
-<<<<<<< HEAD
               <div
                 className="post-icon tooltip group-hover:bg-red-600/10"
                 data-tip="Delete Post"
               >
-=======
-              <div className="post-icon group-hover:bg-red-600/10">
->>>>>>> 823e50f9932d75c387dd3f85f2017e80fc988e15
                 <BsTrash className="h-5 group-hover:text-red-600" />
               </div>
             </div>
           ) : (
             <div className="group flex items-center space-x-1">
-<<<<<<< HEAD
               <div
                 className="post-icon tooltip group-hover:bg-green-500/10"
                 data-tip="Link"
               >
-=======
-              <div className="post-icon group-hover:bg-green-500/10">
->>>>>>> 823e50f9932d75c387dd3f85f2017e80fc988e15
                 <HiSwitchHorizontal className="h-5 group-hover:text-green-500" />
               </div>
             </div>
