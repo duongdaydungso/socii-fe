@@ -1,6 +1,6 @@
 import React from "react";
 import { BiSearchAlt } from "react-icons/bi";
-import FeedTest from "../components/FeedTest";
+import FeedTest from "../../components/FeedTest";
 
 const SearchPage = () => {
   return (

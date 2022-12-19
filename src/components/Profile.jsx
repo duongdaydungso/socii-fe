@@ -69,7 +69,7 @@ const ProfileTray = (/*user list*/) => {
   return (
     <div className="flex w-full flex-col justify-center">
       {users.map((user) => (
-        <ProfileCard user={user} />
+        <ProfileCard user={user} key={user.name} />
       ))}
       <button className="w-full text-center text-sm font-semibold text-accent hover:underline">
         Show more

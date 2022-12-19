@@ -1,11 +1,11 @@
 import React from "react";
 
 import { BiSearchAlt } from "react-icons/bi";
-import { ProfileTray } from "../components/Profile";
+import { ProfileTray } from "./Profile";
 
 const RightBar = () => {
   return (
-    <div className="hidden w-[300px] max-w-[380px] flex-1 flex-col md:flex">
+    <div className="sticky top-0 hidden w-[300px] max-w-[380px] flex-1 flex-col md:flex">
       <div className="sticky top-0 flex h-[4.5rem] items-center justify-center bg-slate-100 dark:bg-dark">
         <input
           type="text"

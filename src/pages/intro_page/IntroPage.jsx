@@ -1,14 +1,13 @@
 import { FaHashtag } from "react-icons/fa";
-import { FcGoogle } from "react-icons/fc";
 import { IoIosClose } from "react-icons/io";
 import { BiSearchAlt } from "react-icons/bi";
-import LeftButton from "../components/LeftButton";
-import Navbar from "../components/Navbar";
+import LeftButton from "../../components/LeftButton";
+import Navbar from "../../components/Navbar";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
-import LoginDialog from "../login_page/LoginDialog";
-import { ProfileTray } from "../components/Profile";
-import FeedTest from "../components/FeedTest";
+import LoginDialog from "../../components/LoginDialog";
+import { ProfileTray } from "../../components/Profile";
+import FeedTest from "../../components/FeedTest";
 
 export default function IntroPage() {
   let [isOpenLoginModal, setIsOpenLoginModal] = useState(false);

@@ -1,17 +1,27 @@
-import { Dialog, Transition } from "@headlessui/react";
 import React, { Fragment, useRef, useState } from "react";
+
+import { useDispatch } from "react-redux";
+
+import { Link } from "react-router-dom";
+
+import { Dialog, Transition } from "@headlessui/react";
+
 import { BsBrush } from "react-icons/bs";
-import { AiOutlineMessage } from "react-icons/ai";
-import { FaBell, FaHashtag, FaHome, FaUserFriends } from "react-icons/fa";
+import { FaHome } from "react-icons/fa";
 import { BiLogOut } from "react-icons/bi";
+
 import LeftButton from "./LeftButton";
 import PostInput from "./PostInput";
-import { Link } from "react-router-dom";
-import useClickOutside from "../../hooks/useClickOutside";
+
+import useClickOutside from "../hooks/useClickOutside";
+import { clearToken } from "../redux/auth/authSlice";
+import { pagePath } from "../utils/routeConstants";
 
 const LeftBar = () => {
   let [isOpenPostBox, setIsOpenPostBox] = useState(false);
   const postModalref = useRef(null);
+
+  const dispatch = useDispatch();
 
   function closePostBoxModal() {
     setIsOpenPostBox(false);
@@ -30,7 +40,7 @@ const LeftBar = () => {
   };
 
   return (
-    <div className="border-layout sticky top-0 flex min-h-screen w-[70px] shrink-0 justify-center border-r lg:w-[280px]">
+    <div className="border-layout sticky top-0 flex h-screen w-[70px] shrink-0 justify-center border-r lg:w-[280px]">
       <div className="sticky top-0 flex w-[73%] flex-col items-center lg:ml-8 lg:items-start">
         <Link className="mt-5 h-12 w-12 lg:ml-[8px]" to="/">
           <img
@@ -40,7 +50,7 @@ const LeftBar = () => {
         </Link>
         <div className="mt-2 flex h-full w-full flex-col">
           <div className="flex flex-col items-center space-y-5 pt-5 lg:items-start ">
-            <LeftButton Icon={FaHome} text="Home" path="/home" />
+            <LeftButton Icon={FaHome} text="Home" path={pagePath.ROOT} />
             {/* <LeftButton Icon={FaBell} text="Notifications" path="/notification" />
             <LeftButton Icon={FaUserFriends} text="Friends" path="/friends" />
             <LeftButton Icon={AiOutlineMessage} text="Messages" path="/message" /> */}
@@ -59,7 +69,7 @@ const LeftBar = () => {
             </button>
           </div>
         </div>
-        <div className="hoverAnimation mt-auto mb-5 flex items-center space-x-1 p-2">
+        <div className="hoverAnimation mt-auto mb-5 flex items-center space-x-1 p-2 ">
           <Link to="/user" className="h-14 w-14 ">
             <img src={user.avatar} className="rounded-full" alt="profile" />
           </Link>
@@ -72,7 +82,12 @@ const LeftBar = () => {
             </span>
           </span>
           <div className="tooltip group hidden lg:inline" data-tip="Log Out">
-            <BiLogOut className="ml-2 h-6 w-6 group-hover:text-[#1d9bf0]" />
+            <BiLogOut
+              className="ml-2 h-6 w-6 group-hover:text-[#1d9bf0]"
+              onClick={() => {
+                dispatch(clearToken());
+              }}
+            />
           </div>
         </div>
       </div>

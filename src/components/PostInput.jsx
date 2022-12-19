@@ -4,7 +4,7 @@ import TextareaAutosize from "react-textarea-autosize";
 import { BsEmojiSmile, BsImage } from "react-icons/bs";
 import { IoIosClose } from "react-icons/io";
 
-import useClickOutside from "../../hooks/useClickOutside";
+import useClickOutside from "../hooks/useClickOutside";
 import Picker from "@emoji-mart/react";
 
 const PostInput = () => {
