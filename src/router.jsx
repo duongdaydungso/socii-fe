@@ -15,6 +15,7 @@ import Navbar from "./pages/components/Navbar";
 import ProfilePage from "./pages/profile_page/ProfilePage";
 import SearchPage from "./pages/search_page/SearchPage";
 import PostPage from "./pages/post_page/PostPage";
+import ProfileEditing from "./pages/profile_page/ProfileEditing";
 
 function RequiredAuthHomePage() {
   const currAuth = useSelector(selectAuth);

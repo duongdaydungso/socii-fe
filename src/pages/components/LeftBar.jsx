@@ -3,7 +3,7 @@ import React, { Fragment, useRef, useState } from "react";
 import { BsBrush } from "react-icons/bs";
 import { AiOutlineMessage } from "react-icons/ai";
 import { FaBell, FaHashtag, FaHome, FaUserFriends } from "react-icons/fa";
-import { MdOutlineMoreHoriz } from "react-icons/md";
+import { BiLogOut } from "react-icons/bi";
 import LeftButton from "./LeftButton";
 import PostInput from "./PostInput";
 import { Link } from "react-router-dom";
@@ -40,11 +40,10 @@ const LeftBar = () => {
         </Link>
         <div className="mt-2 flex h-full w-full flex-col">
           <div className="flex flex-col items-center space-y-5 pt-5 lg:items-start ">
-            <LeftButton Icon={FaHome} text="Home" />
-            <LeftButton Icon={FaBell} text="Notifications" />
-            <LeftButton Icon={FaUserFriends} text="Friends" />
-            <LeftButton Icon={AiOutlineMessage} text="Messages" />
-            <LeftButton Icon={FaBell} text="Notifications" />
+            <LeftButton Icon={FaHome} text="Home" path="/home" />
+            {/* <LeftButton Icon={FaBell} text="Notifications" path="/notification" />
+            <LeftButton Icon={FaUserFriends} text="Friends" path="/friends" />
+            <LeftButton Icon={AiOutlineMessage} text="Messages" path="/message" /> */}
             {/*<LeftButton Icon={FaHashtag} text="Explore" />
            /
           <LeftButton Icon={FaUserFriends} text="Friends" path="/user" />
@@ -61,9 +60,9 @@ const LeftBar = () => {
           </div>
         </div>
         <div className="hoverAnimation mt-auto mb-5 flex items-center space-x-1 p-2">
-          <div className="h-14 w-14 ">
+          <Link to="/user" className="h-14 w-14 ">
             <img src={user.avatar} className="rounded-full" alt="profile" />
-          </div>
+          </Link>
 
           <span className="hidden px-2 font-semibold dark:text-white lg:inline">
             {user.name}
@@ -72,8 +71,8 @@ const LeftBar = () => {
               {"@" + user.name.toLowerCase().split(" ").join("")}
             </span>
           </span>
-          <div className="tooltip group hidden lg:inline" data-tip="Options">
-            <MdOutlineMoreHoriz className="h-6 w-6 group-hover:text-[#1d9bf0]" />
+          <div className="tooltip group hidden lg:inline" data-tip="Log Out">
+            <BiLogOut className="ml-2 h-6 w-6 group-hover:text-[#1d9bf0]" />
           </div>
         </div>
       </div>
