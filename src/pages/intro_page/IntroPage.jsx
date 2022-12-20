@@ -6,7 +6,7 @@ import Navbar from "../../components/navbar/Navbar";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 import LoginDialog from "../../components/login/LoginDialog";
-import { ProfileTray } from "../../components/profile/ProfileTray";
+import ProfileTray from "../../components/profile/ProfileTray";
 import { Link } from "react-router-dom";
 
 export default function IntroPage() {

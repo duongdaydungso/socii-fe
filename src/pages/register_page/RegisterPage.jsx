@@ -14,7 +14,7 @@ const RegisterPage = () => {
           <img
             src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.svg"
             className="w-full"
-            alt="Phone image"
+            alt="Phone background"
           />
         </div>
 

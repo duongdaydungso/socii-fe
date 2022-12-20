@@ -29,7 +29,7 @@ const PostCard = ({ postData, canClick = false }) => {
 
       setAuthorAvatar(value.data.profile.avatar);
     });
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const post = {
     id: postData.id,
@@ -40,8 +40,7 @@ const PostCard = ({ postData, canClick = false }) => {
     },
 
     content: postData.content,
-    image:
-      "https://assets.goal.com/v3/assets/bltcc7a7ffd2fbf71f5/bltfcdeffabeec48348/60dc14140401cb0ebfac177e/cc0acdf7dc2968346cc8d86dc76b6763cbb8b8dd.jpg?format=jpg",
+    image: postData.image ? postData.image : null,
     timestamp: getTimestamp(postData.updatedAt),
 
     commentCount: postData._count.comments,
@@ -90,11 +89,7 @@ const PostCard = ({ postData, canClick = false }) => {
         <p className="">{post.content}</p>
         {post.image && (
           <div className="mt-2 mr-2">
-            <img
-              className="rounded-2xl"
-              src={post?.image}
-              alt="content image"
-            />
+            <img className="rounded-2xl" src={post?.image} alt="content" />
           </div>
         )}
         <div className="mt-1 -mb-3 flex justify-between pr-2">

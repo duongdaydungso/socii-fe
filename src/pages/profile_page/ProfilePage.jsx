@@ -12,8 +12,11 @@ import PostCard from "../../components/post/PostCard";
 import { TbMail } from "react-icons/tb";
 import { HiDotsHorizontal } from "react-icons/hi";
 import { Dialog, Transition } from "@headlessui/react";
-import { getDataUserByID } from "../../services/publicServices";
+
 import { selectAuth } from "../../redux/auth/authSlice";
+
+import { getDataUserByID } from "../../services/publicServices";
+import { sendFriendRequest } from "../../services/userServices";
 
 export async function profileLoader({ params }) {
   const profileID = Number(params.profileID);
@@ -53,6 +56,14 @@ const ProfilePage = () => {
     setIsOpenEditBox(true);
   }
 
+  const handleSendFriendRequest = () => {
+    sendFriendRequest(tmpUser.token, userData.id).then((res) => {
+      if (res.error === 0 || res.error === 10204) {
+        alert(res.message);
+      } else console.log(res.message);
+    });
+  };
+
   return (
     <div className="">
       <div className="border-layout flex min-w-[380px] max-w-[600px] flex-1 shrink-0 flex-col border-x sm:min-w-[600px]">
@@ -78,7 +89,7 @@ const ProfilePage = () => {
               <div className="ml-auto mt-24">
                 <button
                   onClick={openEditBox}
-                  className="rounded-full border bg-accent p-2 text-sm font-semibold text-white"
+                  className="rounded-full border bg-accent p-2 text-sm font-semibold text-white hover:scale-105"
                 >
                   Edit Profile
                 </button>
@@ -91,7 +102,10 @@ const ProfilePage = () => {
                 <div className="hoverAnimation p-2">
                   <TbMail className="h-6 w-6" />
                 </div>
-                <button className="rounded-full border bg-accent p-2 text-sm font-semibold text-white">
+                <button
+                  className="rounded-full border bg-accent p-2 text-sm font-semibold text-white hover:scale-105"
+                  onClick={() => handleSendFriendRequest()}
+                >
                   Add Friend
                 </button>
               </div>
