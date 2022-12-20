@@ -4,6 +4,9 @@ import { useDispatch } from "react-redux";
 
 import { assignToken } from "../../redux/auth/authSlice";
 
+import * as Yup from "yup";
+import { useFormik } from "formik";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faEye,
@@ -18,18 +21,15 @@ import { loginAPI } from "../../services/publicServices";
 const humanIconSVG =
   "M 32 2 A 1 1 0 0 0 32 32 C 12 32 2 42 2 62 L 62 62 C 62 42 52 32 32 32 A 1 1 0 0 0 32 2";
 
-export default function LoginPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+export default function LoginDialog() {
   const [isShowPassword, setIsShowPassword] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
 
   const dispact = useDispatch();
 
-  const handleLogin = async () => {
+  const handleLogin = async (email, password) => {
     try {
       await loginAPI(email, password).then((res) => {
-        if (res.data.accessToken) {
+        if (res.data.accessToken && res.error === 0) {
           dispact(
             assignToken({
               token: res.data.accessToken,
@@ -40,6 +40,10 @@ export default function LoginPage() {
               userAvatar: res.data.avatar,
             })
           );
+        } else {
+          alert(res.message);
+
+          formik.resetForm();
         }
       });
     } catch (e) {
@@ -47,8 +51,25 @@ export default function LoginPage() {
     }
   };
 
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validationSchema: Yup.object({
+      email: Yup.string().required("Required email"),
+      password: Yup.string().required("Required password"),
+    }),
+    onSubmit: (values) => {
+      handleLogin(values.email, values.password);
+    },
+  });
+
   return (
-    <div className="login-background flex bg-opacity-75 bg-gradient-to-r from-accent to-[#CBEDD5] p-3">
+    <form
+      className="login-background flex bg-opacity-75 bg-gradient-to-r from-accent to-[#CBEDD5] p-3"
+      onSubmit={formik.handleSubmit}
+    >
       <div className="login-container m-auto flex h-[470px] w-[450px]">
         <div className="human-icon-container absolute mx-[165px] mt-0 flex h-[120px] w-[120px] rounded-full bg-black-blue">
           <svg className="m-auto h-[64px] w-[64px]">
@@ -69,8 +90,10 @@ export default function LoginPage() {
               className="h-[60px] w-[300px] bg-black-blue/60 px-5 text-lg text-[white]/90 placeholder-[white]/70"
               type="text"
               placeholder="Email"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
+              id="email"
+              name="email"
+              value={formik.values.email}
+              onChange={formik.handleChange}
             />
           </div>
           <div className="input-field mx-[45px] mt-[20px] flex">
@@ -86,21 +109,29 @@ export default function LoginPage() {
               className="h-[60px] w-[300px] bg-black-blue/60 px-5 text-lg text-[white]/90 placeholder-[white]/70"
               type={isShowPassword ? "text" : "password"}
               placeholder="Password"
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
+              id="password"
+              name="password"
+              value={formik.values.password}
+              onChange={formik.handleChange}
             />
           </div>
-          <div className="login-error-message mt-[10px] w-[450px] text-center text-lg font-bold text-[red]">
-            {errorMessage}
+          <div className="login-error-message text-md mt-[10px] w-[450px] text-center font-bold text-[red]">
+            {formik.values.email !== "" || formik.values.password !== ""
+              ? formik.errors.email
+                ? formik.errors.email
+                : formik.errors.password
+              : null}
           </div>
           <div
             className={
-              errorMessage !== ""
-                ? "other-options mt-[2px] flex"
+              (formik.values.email !== "" || formik.values.password !== "") &&
+              (formik.errors.email || formik.errors.password)
+                ? "other-options mt-[6px] flex"
                 : "other-option mt-[40px] flex"
             }
           >
             <button
+              type="button"
               className="toggle-hide-password ml-[40px] text-black-blue hover:scale-[1.05]"
               onClick={() => setIsShowPassword(!isShowPassword)}
             >
@@ -118,11 +149,11 @@ export default function LoginPage() {
                     absolute mx-[65px] mt-[410px] h-[60px] w-[320px] rounded-b-[40px] 
                     bg-gradient-to-t from-[white]/50 via-[white]/50 
                     text-base font-bold text-[white]/90 hover:scale-[1.05]"
-          onClick={() => handleLogin()}
+          type="submit"
         >
           L O G I N
         </button>
       </div>
-    </div>
+    </form>
   );
 }

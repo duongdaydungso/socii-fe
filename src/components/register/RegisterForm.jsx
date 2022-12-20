@@ -18,18 +18,8 @@ const RegisterForm = () => {
       lastName: Yup.string()
         .required("Required")
         .min(2, "Must be at least 2 characters"),
-      email: Yup.string()
-        .required("Required")
-        .matches(
-          /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
-          "Please enter a valid email address"
-        ),
-      password: Yup.string()
-        .required("Required")
-        .matches(
-          /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d][A-Za-z\d!@#$%^&*()_+]{7,19}$/,
-          "Password must be 7-19 characters and contain at least one letter, one number and a special character"
-        ),
+      email: Yup.string().required("Required"),
+      password: Yup.string().required("Required"),
       confirmedPassword: Yup.string()
         .required("Required")
         .oneOf([Yup.ref("password"), null], "Password must match"),
@@ -38,8 +28,6 @@ const RegisterForm = () => {
       console.log(values);
     },
   });
-
-  console.log(formik.errors.confirmedPassword);
 
   return (
     <section>
