@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import { Dialog, Transition } from "@headlessui/react";
 
 import { BsBrush } from "react-icons/bs";
-import { FaHome } from "react-icons/fa";
+import { FaHome, FaUserAlt } from "react-icons/fa";
 import { BiLogOut } from "react-icons/bi";
 
 import LeftButton from "../buttons/LeftButton";
@@ -53,12 +53,17 @@ const LeftBar = () => {
         <div className="mt-2 flex h-full w-full flex-col">
           <div className="flex flex-col items-center space-y-5 pt-5 lg:items-start ">
             <LeftButton Icon={FaHome} text="Home" path={pagePath.ROOT} />
+            <LeftButton
+              Icon={FaUserAlt}
+              text="User"
+              path={pagePath.PROFILE + "/" + user.id}
+            />
             {/* <LeftButton Icon={FaBell} text="Notifications" path="/notification" />
             <LeftButton Icon={FaUserFriends} text="Friends" path="/friends" />
             <LeftButton Icon={AiOutlineMessage} text="Messages" path="/message" /> */}
             {/*<LeftButton Icon={FaHashtag} text="Explore" />
            /
-          <LeftButton Icon={FaUserFriends} text="Friends" path="" />
+          
           <LeftButton Icon={AiOutlineMessage} text="Messages" />
           <LeftButton Icon={MdOutlineMoreHoriz} text="More" /> */}
           </div>

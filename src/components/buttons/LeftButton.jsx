@@ -6,7 +6,7 @@ const LeftButton = ({ Icon, text, path }) => {
     <NavLink
       to={path}
       className={({ isActive }) => {
-        return isActive ? `text-[20px] font-bold` : `text-[17px] font-semibold`;
+        return isActive ? `scale-105 font-[1000]` : `text-[17px]`;
       }}
     >
       <div className="hoverAnimation flex items-center space-x-4 p-4">

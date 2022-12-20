@@ -15,11 +15,11 @@ const ProfileCard = ({ user }) => {
           alt="avatar"
           className="mt-4 w-14 rounded-full"
         />
-        <div className="flex flex-col">
-          <span className="text-[17px] font-[800] hover:underline dark:text-white">
+        <div className="mt-2 flex flex-col">
+          <span className="text-[14px] font-[800] hover:underline dark:text-white">
             {user.name}
           </span>
-          <p className="text-xs text-[black]/50 dark:text-[white]/50">
+          <p className="text-[11px] text-[black]/50 dark:text-[white]/50">
             {user.description}
           </p>
         </div>
@@ -27,17 +27,17 @@ const ProfileCard = ({ user }) => {
       <div className="-mr-1 mt-3 space-x-2">
         {!requested ? (
           <button
-            className="rounded-xl bg-accent p-1 text-sm"
+            className="whitespace-nowrap rounded-xl bg-accent p-1 text-sm hover:bg-accentLight"
             onClick={sendFriendRequest}
           >
             Add Friend
           </button>
         ) : (
           <button
-            className="rounded-xl bg-slate-300 p-1 text-sm"
+            className="whitespace-nowrap rounded-xl bg-slate-300 p-1 text-sm text-dark hover:bg-slate-500"
             onClick={sendFriendRequest}
           >
-            Request Sent
+            Cancel Request
           </button>
         )}
       </div>

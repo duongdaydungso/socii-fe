@@ -96,12 +96,12 @@ export default function IntroPage() {
           <button
             type="button"
             onClick={openLoginModal}
-            className="h-[30px] w-[120px] rounded-full border font-bold text-white sm:w-[80px]"
+            className="h-[30px] w-[120px] rounded-full border font-bold text-white hover:bg-accent sm:w-[80px]"
           >
             Login
           </button>
           <Link to="/register">
-            <button className="h-[30px] w-[120px] rounded-full border bg-white font-bold text-black sm:w-[80px]">
+            <button className="h-[30px] w-[120px] rounded-full border bg-white font-bold text-black hover:bg-slate-100 sm:w-[80px]">
               Sign Up
             </button>
           </Link>

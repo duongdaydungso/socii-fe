@@ -18,7 +18,7 @@ const PostCard = ({ postData, canClick = false }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const sessionUIDEqualsPOSTUID = false;
+  const sessionUIDEqualsPOSTUID = true;
   const liked = false;
 
   const [authorAvatar, setAuthorAvatar] = useState("");
@@ -100,7 +100,10 @@ const PostCard = ({ postData, canClick = false }) => {
         <div className="mt-1 -mb-3 flex justify-between pr-2">
           {/* Comment */}
           <div className="group flex items-center space-x-1 ">
-            <div className="post-icon group-hover:bg-[#1d9bf0] group-hover:bg-opacity-10">
+            <div
+              className="post-icon tooltip group-hover:bg-[#1d9bf0] group-hover:bg-opacity-10"
+              data-tip="Comment"
+            >
               <BsChat className="h-5 group-hover:text-[#1d9bf0]" />
             </div>
             {post.commentCount > 0 && (
@@ -111,7 +114,10 @@ const PostCard = ({ postData, canClick = false }) => {
           </div>
           {/* Like */}
           <div className="group flex items-center space-x-1">
-            <div className="post-icon group-hover:bg-pink-600/10">
+            <div
+              className="tooltip post-icon group-hover:bg-pink-600/10"
+              data-tip="Like"
+            >
               {liked ? (
                 <BsFillHeartFill className="h-5 text-pink-600" />
               ) : (
@@ -128,22 +134,26 @@ const PostCard = ({ postData, canClick = false }) => {
               </span>
             )}
           </div>
-          {/* ShareLink */}
-          <div className="post-icon group">
+          {/* Share */}
+          <div className="post-icon tooltip group" data-tip="Share">
             <BsShare className="h-5 group-hover:text-[#1d9bf0]" />
           </div>
-          {/* Share/Delete*/}
+          {/* ShareLink/Delete*/}
           {sessionUIDEqualsPOSTUID ? (
             <div
-              className="group flex items-center space-x-1"
+              className="tooltip group flex items-center space-x-1"
+              data-tip="Delete"
               onClick={() => {}}
             >
-              <div className="post-icon group-hover:bg-red-600/10">
+              <div className="post-icon tooltip group-hover:bg-red-600/10">
                 <BsTrash className="h-5 group-hover:text-red-600" />
               </div>
             </div>
           ) : (
-            <div className="group flex items-center space-x-1">
+            <div
+              className="tooltip group flex items-center space-x-1"
+              data-tip="Link"
+            >
               <div className="post-icon group-hover:bg-green-500/10">
                 <HiSwitchHorizontal className="h-5 group-hover:text-green-500" />
               </div>
