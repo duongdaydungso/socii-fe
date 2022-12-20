@@ -2,6 +2,9 @@ import React from "react";
 
 import { useLoaderData } from "react-router-dom";
 
+import { useSelector } from "react-redux";
+import { selectAuth } from "../../redux/auth/authSlice";
+
 import { getPostByID } from "../../services/publicServices";
 
 import CommentCard from "../../components/comment/CommentCard";
@@ -24,11 +27,13 @@ const PostPage = () => {
 
   const postData = loaderData.data;
 
+  const tmpAuth = useSelector(selectAuth);
+
   return (
     <div className="border-layout flex min-w-[380px] max-w-[600px] flex-1 shrink-0 flex-col border-x sm:min-w-[600px]">
       <Navbar pageName="Thread" showBackButton />
       <PostCard postData={postData} />
-      <CommentDialog />
+      {tmpAuth.token && <CommentDialog />}
       {postData.comments.map((cmt) => (
         <CommentCard commentData={cmt} key={cmt.id} />
       ))}

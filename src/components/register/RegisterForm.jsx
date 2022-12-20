@@ -108,7 +108,7 @@ const RegisterForm = () => {
             Gender
           </label>
           <select
-            class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2 text-gray-900 focus:border-accentLight focus:ring-accentLight dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
+            className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2 text-gray-900 focus:border-accentLight focus:ring-accentLight dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
             id="gender"
             name="gender"
             onChange={formik.handleChange}
@@ -185,14 +185,14 @@ const RegisterForm = () => {
         >
           Create account
         </button>
-        <p className="flex text-sm font-light text-gray-500 dark:text-gray-400">
+        <div className="flex text-sm font-light text-gray-500 dark:text-gray-400">
           Already have an account?{" "}
           <Link to="/">
             <div className="ml-1 font-medium text-accent hover:underline">
               Login here
             </div>
           </Link>
-        </p>
+        </div>
       </form>
     </section>
   );

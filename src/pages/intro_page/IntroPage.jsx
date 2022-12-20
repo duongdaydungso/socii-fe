@@ -1,12 +1,11 @@
+import { Outlet } from "react-router-dom";
+
 import { FaHashtag } from "react-icons/fa";
 import { IoIosClose } from "react-icons/io";
-import { BiSearchAlt } from "react-icons/bi";
 import LeftButton from "../../components/buttons/LeftButton";
-import Navbar from "../../components/navbar/Navbar";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 import LoginDialog from "../../components/login/LoginDialog";
-import ProfileTray from "../../components/profile/ProfileTray";
 import { Link } from "react-router-dom";
 
 export default function IntroPage() {
@@ -38,27 +37,7 @@ export default function IntroPage() {
           </div>
         </div>
         {/*Mid*/}
-        <div className="border-layout flex min-w-[380px] max-w-[600px] flex-1 shrink-0 flex-col border-x sm:min-w-[600px]">
-          <Navbar pageName="Socii" />
-          <div className="sticky top-[4.5rem] z-10 flex w-full items-center justify-center bg-slate-100 dark:bg-dark">
-            <input
-              type="text"
-              className="h-10 w-[95%] rounded-full bg-slate-50 p-4 pl-10 text-dark outline-none focus:bg-white focus:outline-[2px] dark:bg-hoverDark dark:text-white dark:focus:bg-black"
-              placeholder="Search Socii..."
-            />
-            <BiSearchAlt className="absolute top-[10px] left-[23px] h-6 w-6 dark:text-white" />
-          </div>
-          {/*famous post*/}
-          <div className="mt-3 flex w-full flex-col">
-            <div className="content-title mb-3">What's happening?</div>
-
-            {/*famous guy*/}
-            <div className="border-layout mt-3 flex flex-col justify-center border-t">
-              <span className="content-title right-0 my-3">Famous People</span>
-              <ProfileTray />
-            </div>
-          </div>
-        </div>
+        <Outlet />
         {/*Right*/}
         <div className="hidden w-[300px] max-w-[380px] flex-1 justify-center md:flex">
           <div className="border-layout sticky top-2 mt-2 flex h-[150px] w-[90%] flex-col rounded-xl border pl-2 dark:text-white">

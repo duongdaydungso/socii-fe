@@ -42,7 +42,7 @@ const ProfilePage = () => {
   const [userRelationship, setUserRelationship] = useState(null);
 
   const tmpUser = useSelector(selectAuth);
-  const isAccOwner = userData.id === tmpUser.userID;
+  const isAccOwner = tmpUser.userID && userData.id === tmpUser.userID;
 
   const fetchRelationship = () => {
     if (tmpUser.userID && !isAccOwner) {

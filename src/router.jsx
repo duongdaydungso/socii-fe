@@ -14,13 +14,22 @@ import ProfilePage, { profileLoader } from "./pages/profile_page/ProfilePage";
 import FriendlistPage from "./pages/friendlist_page/FriendlistPage";
 import PostPage, { postLoader } from "./pages/post_page/PostPage";
 import NewsfeedPage from "./pages/newsfeed_page/NewsfeedPage";
+import IntroPageContent from "./pages/intro_page/IntroPageContent";
 
-function RequiredAuthHomePage() {
+function RequiredAuthRootPage() {
   const currAuth = useSelector(selectAuth);
 
   if (currAuth && currAuth.token) return <HomePage />;
 
   return <IntroPage />;
+}
+
+function RequiredAuthHomePage() {
+  const currAuth = useSelector(selectAuth);
+
+  if (currAuth && currAuth.token) return <NewsfeedPage />;
+
+  return <IntroPageContent />;
 }
 
 // function RequiredAuthRedirectLogin(props) {
@@ -47,12 +56,12 @@ function UnrequiredAuthRedirectRoot(props) {
 export const router = createBrowserRouter([
   {
     path: pagePath.ROOT,
-    element: <RequiredAuthHomePage />,
+    element: <RequiredAuthRootPage />,
     errorElement: <ErrorPage />,
     children: [
       {
-        path: pagePath.NEWSFEED,
-        element: <NewsfeedPage />,
+        path: pagePath.ROOT,
+        element: <RequiredAuthHomePage />,
       },
       {
         path: pagePath.PROFILE + "/:profileID",
