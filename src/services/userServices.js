@@ -120,6 +120,7 @@ export const createPost = (token, content, file) => {
     },
     data: {
       content: content,
+      type: "post",
       file: file,
     },
   });
@@ -155,6 +156,19 @@ export const checkCommentLike = (token, commentID) => {
   return axios({
     method: "post",
     url: `/api/post/checkCommentLike`,
+    headers: {
+      Authorization: token,
+    },
+    data: {
+      commentId: commentID,
+    },
+  });
+};
+
+export const deleteComment = (token, commentID) => {
+  return axios({
+    method: "post",
+    url: `/api/post/removeCommentFromPost`,
     headers: {
       Authorization: token,
     },

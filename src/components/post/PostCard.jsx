@@ -62,6 +62,8 @@ const PostCard = ({ postData, canClick = false, triggerFetch }) => {
   const isAccOwner = tmpUser.userID && post.author.id === tmpUser.userID;
 
   const fetchLiked = () => {
+    if (tmpUser.token == null) return;
+
     checkPostLike(tmpUser.token, post.id).then((res) => {
       if (res.error === 0) setLiked(res.data);
       else console.log(res.message);

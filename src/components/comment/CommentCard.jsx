@@ -9,19 +9,11 @@ import { getUserDescriptionByID } from "../../services/publicServices";
 import {
   checkCommentLike,
   toggleCommentLike,
+  deleteComment,
 } from "../../services/userServices";
 
-import {
-  //   BsChat,
-  //   BsShare,
-  //   BsTrash,
-  BsFillHeartFill,
-  BsHeart,
-} from "react-icons/bs";
-import {
-  HiDotsHorizontal,
-  // HiSwitchHorizontal
-} from "react-icons/hi";
+import { BsTrash, BsFillHeartFill, BsHeart } from "react-icons/bs";
+import { HiDotsHorizontal } from "react-icons/hi";
 
 import { getTimestamp } from "../../utils/getTimestamp";
 import { pagePath } from "../../utils/routeConstants";
@@ -29,8 +21,6 @@ import { pagePath } from "../../utils/routeConstants";
 const CommentCard = ({ commentData, triggerFetch }) => {
   const navigate = useNavigate();
   const location = useLocation();
-
-  //   const sessionUIDEqualsCOMENTUID = false;
 
   const tmpUser = useSelector(selectAuth);
 
@@ -64,6 +54,8 @@ const CommentCard = ({ commentData, triggerFetch }) => {
   };
 
   const fetchLiked = () => {
+    if (tmpUser.token == null) return;
+
     checkCommentLike(tmpUser.token, comment.id).then((res) => {
       if (res.error === 0) setLiked(res.data);
       else console.log(res.message);
@@ -80,6 +72,16 @@ const CommentCard = ({ commentData, triggerFetch }) => {
 
       fetchLiked();
       triggerFetch();
+    });
+  };
+
+  const handleDeleteComment = () => {
+    deleteComment(tmpUser.token, comment.id).then((res) => {
+      if (res.error === 0) {
+        alert(res.message);
+
+        triggerFetch();
+      } else console.log(res.message);
     });
   };
 
@@ -121,17 +123,6 @@ const CommentCard = ({ commentData, triggerFetch }) => {
         </div>
 
         <div className="mt-1 -mb-3 flex justify-between pr-2">
-          {/* Comment */}
-          {/* <div className="group flex items-center space-x-1 ">
-            <div className="post-icon group-hover:bg-[#1d9bf0] group-hover:bg-opacity-10">
-              <BsChat className="h-5 group-hover:text-[#1d9bf0]" />
-            </div>
-            {comment.comments.length > 0 && (
-              <span className="text-sm group-hover:text-[#1d9bf0]">
-                {comment.comments.length}
-              </span>
-            )}
-          </div> */}
           {/* Like */}
           <div className="group flex items-center space-x-1">
             <div
@@ -157,27 +148,20 @@ const CommentCard = ({ commentData, triggerFetch }) => {
               </span>
             )}
           </div>
-          {/* ShareLink */}
-          {/* <div className="post-icon group">
-            <BsShare className="h-5 group-hover:text-[#1d9bf0]" />
-          </div> */}
           {/* Share/Delete*/}
-          {/* {sessionUIDEqualsCOMENTUID ? (
+          {tmpUser.userID === comment.author.id && (
             <div
               className="group flex items-center space-x-1"
-              onClick={() => {}}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleDeleteComment();
+              }}
             >
               <div className="post-icon group-hover:bg-red-600/10">
                 <BsTrash className="h-5 group-hover:text-red-600" />
               </div>
             </div>
-          ) : (
-            <div className="group flex items-center space-x-1">
-              <div className="post-icon group-hover:bg-green-500/10">
-                <HiSwitchHorizontal className="h-5 group-hover:text-green-500" />
-              </div>
-            </div>
-          )} */}
+          )}
         </div>
       </div>
     </div>
