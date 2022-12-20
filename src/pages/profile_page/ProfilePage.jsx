@@ -2,7 +2,7 @@ import React, { Fragment, useEffect, useState } from "react";
 
 import { useSelector } from "react-redux";
 
-import { useLoaderData } from "react-router-dom";
+import { useParams, useLoaderData } from "react-router";
 
 import Navbar from "../../components/navbar/Navbar";
 
@@ -36,10 +36,12 @@ export async function profileLoader({ params }) {
 }
 
 const ProfilePage = () => {
-  const loaderData = useLoaderData();
-  if (loaderData.error !== 0) console.log(loaderData);
+  const mountData = useLoaderData();
 
-  const [userData, setUserData] = useState(loaderData.data);
+  const params = useParams("profileID");
+  const profileID = Number(params.profileID);
+
+  const [userData, setUserData] = useState(mountData.data);
 
   const [isOpenEditBox, setIsOpenEditBox] = useState(false);
   const [userRelationship, setUserRelationship] = useState(null);
@@ -51,10 +53,10 @@ const ProfilePage = () => {
   };
 
   const tmpUser = useSelector(selectAuth);
-  const isAccOwner = tmpUser.userID && userData.id === tmpUser.userID;
+  const isAccOwner = tmpUser.userID && profileID === tmpUser.userID;
 
   const fetchUserData = () => {
-    getDataUserByID(loaderData.data.id).then((res) => {
+    getDataUserByID(profileID).then((res) => {
       if (res.error === 0) {
         setUserData(res.data);
       } else console.log(res.message);
@@ -62,8 +64,8 @@ const ProfilePage = () => {
   };
 
   const fetchRelationship = () => {
-    if (tmpUser.userID && !isAccOwner) {
-      getRelationship(tmpUser.token, userData.id).then((res) => {
+    if (tmpUser.userID && !isAccOwner && profileID) {
+      getRelationship(tmpUser.token, profileID).then((res) => {
         if (res.error === 0) {
           setUserRelationship(res.data);
         } else console.log(res.message);
@@ -72,16 +74,19 @@ const ProfilePage = () => {
   };
 
   useEffect(() => {
+    fetchUserData();
     fetchRelationship();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     fetchUserData();
+    fetchRelationship();
   }, [triggerFetch]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    if (userData.id !== loaderData.id) fetchUserData();
-  }, [userData]); // eslint-disable-line react-hooks/exhaustive-deps
+    fetchUserData();
+    fetchRelationship();
+  }, [profileID]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const user = {
     name: userData.name,

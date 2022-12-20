@@ -2,6 +2,8 @@ import { useState } from "react";
 
 import { useDispatch } from "react-redux";
 
+import { useNavigate } from "react-router";
+
 import { assignToken } from "../../redux/auth/authSlice";
 
 import * as Yup from "yup";
@@ -24,6 +26,8 @@ const humanIconSVG =
 
 export default function LoginDialog() {
   const [isShowPassword, setIsShowPassword] = useState(false);
+
+  const navigate = useNavigate();
 
   const dispact = useDispatch();
 
@@ -144,7 +148,11 @@ export default function LoginDialog() {
               <FontAwesomeIcon icon={isShowPassword ? faEyeSlash : faEye} />
               {isShowPassword ? " Hide" : " Show"} password
             </button>
-            <button className="sign-up-option ml-auto mr-[40px] text-black-blue hover:scale-[1.05]">
+            <button
+              className="sign-up-option ml-auto mr-[40px] text-black-blue hover:scale-[1.05]"
+              type="button"
+              onClick={() => navigate("/register")}
+            >
               <FontAwesomeIcon icon={faUserPlus} />
               {" Register"}
             </button>

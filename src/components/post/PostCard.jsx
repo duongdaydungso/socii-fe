@@ -1,5 +1,7 @@
 import { useNavigate, useLocation } from "react-router-dom";
 
+import swal from "sweetalert";
+
 import { HiDotsHorizontal, HiSwitchHorizontal } from "react-icons/hi";
 import {
   BsChat,
@@ -32,7 +34,9 @@ const PostCard = ({ postData, canClick = false, triggerFetch }) => {
   const sessionUIDEqualsPOSTUID = true;
 
   let [isOpenShareBox, setIsOpenShareBox] = useState(false);
+  let [isOpenImage, setIsOpenImage] = useState(false);
   const shareBoxRef = useRef(null);
+  const imageRef = useRef(null);
 
   const [authorAvatar, setAuthorAvatar] = useState("");
   const [authorName, setAuthorName] = useState("");
@@ -56,7 +60,10 @@ const PostCard = ({ postData, canClick = false, triggerFetch }) => {
     },
 
     content: postData.content,
-    image: postData.image ? postData.image : null,
+    file:
+      postData.attachments !== "http://localhost:8080null"
+        ? postData.attachments
+        : null,
     timestamp: getTimestamp(postData.updatedAt),
 
     commentCount: postData._count.comments,
@@ -83,7 +90,12 @@ const PostCard = ({ postData, canClick = false, triggerFetch }) => {
   const handleDeletePost = () => {
     deletePost(tmpUser.token, post.id).then((res) => {
       if (res.error === 0) {
-        alert(res.message);
+        swal({
+          icon: "success",
+          text: res.message,
+          button: false,
+          timer: 2000,
+        });
 
         if (canClick) triggerFetch();
         else navigate("/", { replace: true });
@@ -108,7 +120,16 @@ const PostCard = ({ postData, canClick = false, triggerFetch }) => {
     setIsOpenShareBox(true);
   }
 
+  function closeImage() {
+    setIsOpenImage(false);
+  }
+
+  function openImage() {
+    setIsOpenImage(true);
+  }
+
   useClickOutside(shareBoxRef, () => closeShareBoxModal());
+  useClickOutside(imageRef, () => closeImage());
 
   return (
     <div
@@ -151,9 +172,22 @@ const PostCard = ({ postData, canClick = false, triggerFetch }) => {
           </div>
         </div>
         <p className="">{post.content}</p>
-        {post.image && (
+        {post.file && (
           <div className="mt-2 mr-2">
-            <img className="rounded-2xl" src={post?.image} alt="content" />
+            {String(post.file).includes("/video/") ? (
+              <video controls>
+                <source src={post?.file} />
+              </video>
+            ) : (
+              <img
+                src={post?.file}
+                alt=""
+                onClick={(e) => {
+                  e.stopPropagation();
+                  openImage();
+                }}
+              />
+            )}
           </div>
         )}
         <div className="mt-1 -mb-3 flex justify-between pr-2">
@@ -284,6 +318,56 @@ const PostCard = ({ postData, canClick = false, triggerFetch }) => {
           </div>
         </Dialog>
       </Transition>
+      {post.file && !String(post.file).includes("/video/") && (
+        <Transition appear show={isOpenImage} as={Fragment}>
+          <Dialog as="div" className="relative z-50" onClose={() => {}}>
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0"
+              enterTo="opacity-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
+            >
+              <div className="fixed inset-0 bg-black bg-opacity-25" />
+            </Transition.Child>
+
+            <div className="fixed inset-0 overflow-y-auto">
+              <div className="flex min-h-full items-center justify-center p-4 text-center">
+                <Transition.Child
+                  as={Fragment}
+                  enter="ease-out duration-300"
+                  enterFrom="opacity-0 scale-95"
+                  enterTo="opacity-100 scale-100"
+                  leave="ease-in duration-200"
+                  leaveFrom="opacity-100 scale-100"
+                  leaveTo="opacity-0 scale-95"
+                >
+                  <Dialog.Panel
+                    ref={imageRef}
+                    className="flex w-full max-w-[600px] transform flex-col rounded-2xl bg-slate-100 p-6 text-left align-middle shadow-xl transition-all dark:bg-dark"
+                  >
+                    <div className="mt-2">
+                      <img src={post?.file} alt="" className="h-full w-full" />
+                    </div>
+
+                    <div className="mt-auto">
+                      <button
+                        type="button"
+                        className="mt-2 inline-flex justify-center rounded-md border border-transparent bg-hoverLight px-4 py-2 dark:bg-hoverDark dark:text-white"
+                        onClick={closeImage}
+                      >
+                        Close
+                      </button>
+                    </div>
+                  </Dialog.Panel>
+                </Transition.Child>
+              </div>
+            </div>
+          </Dialog>
+        </Transition>
+      )}
     </div>
   );
 };

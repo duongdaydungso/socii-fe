@@ -1,6 +1,10 @@
 import React from "react";
 import { useState, useRef } from "react";
 
+import { useNavigate } from "react-router";
+
+import swal from "sweetalert";
+
 import { useSelector } from "react-redux";
 import { selectAuth } from "../../redux/auth/authSlice";
 
@@ -14,8 +18,10 @@ import Picker from "@emoji-mart/react";
 import { createPost } from "../../services/userServices";
 
 const PostInput = () => {
+  const navigate = useNavigate();
   const [input, setInput] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
+  const [fileInput, setFileInput] = useState(null);
   const filePickerRef = useRef(null);
   const emojiPickerRef = useRef(null);
 
@@ -33,16 +39,26 @@ const PostInput = () => {
   };
 
   const sendPost = () => {
-    createPost(userData.token, input, selectedFile).then((res) => {
-      if (res.error === 0) alert(res.message);
-      else console.log(res.message);
+    createPost(userData.token, input, fileInput).then((res) => {
+      if (res.error === 0) {
+        swal({
+          icon: "success",
+          text: res.message,
+          button: false,
+          timer: 2000,
+        });
+
+        navigate(0);
+      } else console.log(res);
     });
   };
 
   const addImageToPost = (e) => {
     const reader = new FileReader();
+
     if (e.target.files[0]) {
       reader.readAsDataURL(e.target.files[0]);
+      setFileInput(e.target.files[0]);
     }
 
     reader.onload = (readerEvent) => {
@@ -76,15 +92,24 @@ const PostInput = () => {
         />
 
         {selectedFile && (
-          <div className="relative">
+          <div className="flex">
+            <div className="flex max-w-[90%] flex-1">
+              {fileInput.type.split("/")[0] === "video" ? (
+                <video controls>
+                  <source src={selectedFile} />
+                </video>
+              ) : (
+                <img src={selectedFile} alt="" />
+              )}
+            </div>
             <div
-              className="absolute top-1 left-1 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-[#15181c] bg-opacity-75 hover:bg-[#272c26]"
-              onClick={() => setSelectedFile(null)}
+              className="top-1 right-1 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-[#15181c] bg-opacity-75 hover:bg-[#272c26]"
+              onClick={() => {
+                setSelectedFile(null);
+                setFileInput(null);
+              }}
             >
               <IoIosClose className="h-5 text-white" />
-            </div>
-            <div className="flex max-w-[90%] flex-1">
-              <img src={selectedFile} alt="" className=" rounded-2xl" />
             </div>
           </div>
         )}

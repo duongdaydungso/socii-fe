@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { selectAuth } from "../../redux/auth/authSlice";
 
+import swal from "sweetalert";
+
 import { useNavigate, useLocation } from "react-router-dom";
 
 import { getUserDescriptionByID } from "../../services/publicServices";
@@ -78,7 +80,12 @@ const CommentCard = ({ commentData, triggerFetch }) => {
   const handleDeleteComment = () => {
     deleteComment(tmpUser.token, comment.id).then((res) => {
       if (res.error === 0) {
-        alert(res.message);
+        swal({
+          icon: "success",
+          text: res.message,
+          button: false,
+          timer: 2000,
+        });
 
         triggerFetch();
       } else console.log(res.message);

@@ -125,7 +125,7 @@ export const toggleCommentLike = (token, commentID) => {
 };
 
 export const createPost = (token, content, file) => {
-  const formData = new FormData();
+  let formData = new FormData();
 
   formData.append("content", content);
   formData.append("type", "post");
