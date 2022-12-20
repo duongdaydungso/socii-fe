@@ -22,19 +22,21 @@ const PostCard = ({ postData, canClick = false }) => {
   const liked = false;
 
   const [authorAvatar, setAuthorAvatar] = useState("");
+  const [authorName, setAuthorName] = useState("");
 
   useEffect(() => {
     getUserDescriptionByID(postData.authorId).then((value) => {
       if (value.error !== 0) console.log(value);
 
       setAuthorAvatar(value.data.profile.avatar);
+      setAuthorName(value.data.name);
     });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const post = {
     id: postData.id,
     author: {
-      userName: postData.author.name,
+      userName: authorName,
       avatar: authorAvatar,
       id: postData.authorId,
     },

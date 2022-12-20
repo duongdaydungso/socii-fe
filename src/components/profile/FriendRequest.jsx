@@ -23,11 +23,9 @@ const FriendRequest = ({ userRequest, changer }) => {
 
   const handleAcceptFriendRequest = () => {
     acceptFriendRequest(tmpAuth.token, userReq.id).then((res) => {
-      if (res.error === 0) {
-        alert("Accepted Request");
+      alert(res.message);
 
-        changer();
-      } else console.log(res.message);
+      changer();
     });
   };
 

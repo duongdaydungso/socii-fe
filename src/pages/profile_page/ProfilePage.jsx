@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 
 import { useSelector } from "react-redux";
 
@@ -16,7 +16,13 @@ import { Dialog, Transition } from "@headlessui/react";
 import { selectAuth } from "../../redux/auth/authSlice";
 
 import { getDataUserByID } from "../../services/publicServices";
-import { sendFriendRequest } from "../../services/userServices";
+import {
+  sendFriendRequest,
+  getRelationship,
+  removeFriend,
+  cancelFriendRequest,
+  acceptFriendRequest,
+} from "../../services/userServices";
 
 export async function profileLoader({ params }) {
   const profileID = Number(params.profileID);
@@ -32,10 +38,25 @@ const ProfilePage = () => {
 
   const userData = loaderData.data;
 
-  let [isOpenEditBox, setIsOpenEditBox] = useState(false);
+  const [isOpenEditBox, setIsOpenEditBox] = useState(false);
+  const [userRelationship, setUserRelationship] = useState(null);
 
   const tmpUser = useSelector(selectAuth);
   const isAccOwner = userData.id === tmpUser.userID;
+
+  const fetchRelationship = () => {
+    if (tmpUser.userID && !isAccOwner) {
+      getRelationship(tmpUser.token, userData.id).then((res) => {
+        if (res.error === 0) {
+          setUserRelationship(res.data);
+        } else console.log(res.message);
+      });
+    }
+  };
+
+  useEffect(() => {
+    fetchRelationship();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const user = {
     name: userData.name,
@@ -46,6 +67,7 @@ const ProfilePage = () => {
     email: userData.email,
     description: userData.profile.description,
     age: userData.profile.age,
+    relationship: userRelationship,
   };
 
   function closeEditBox() {
@@ -58,9 +80,33 @@ const ProfilePage = () => {
 
   const handleSendFriendRequest = () => {
     sendFriendRequest(tmpUser.token, userData.id).then((res) => {
-      if (res.error === 0 || res.error === 10204) {
-        alert(res.message);
-      } else console.log(res.message);
+      alert(res.message);
+
+      fetchRelationship();
+    });
+  };
+
+  const handleUnfriend = () => {
+    removeFriend(tmpUser.token, userData.id).then((res) => {
+      alert(res.message);
+
+      fetchRelationship();
+    });
+  };
+
+  const handleCancelFriendRequest = () => {
+    cancelFriendRequest(tmpUser.token, userData.id).then((res) => {
+      alert(res.message);
+
+      fetchRelationship();
+    });
+  };
+
+  const handleAcceptFriendRequest = () => {
+    acceptFriendRequest(tmpUser.token, userData.id).then((res) => {
+      alert(res.message);
+
+      fetchRelationship();
     });
   };
 
@@ -102,12 +148,38 @@ const ProfilePage = () => {
                 <div className="hoverAnimation p-2">
                   <TbMail className="h-6 w-6" />
                 </div>
-                <button
-                  className="rounded-full border bg-accent p-2 text-sm font-semibold text-white hover:scale-105"
-                  onClick={() => handleSendFriendRequest()}
-                >
-                  Add Friend
-                </button>
+                {user.relationship === "None" && (
+                  <button
+                    className="rounded-full border bg-accent p-2 text-sm font-semibold text-white hover:scale-105"
+                    onClick={() => handleSendFriendRequest()}
+                  >
+                    Add Friend
+                  </button>
+                )}
+                {user.relationship === "Sent" && (
+                  <button
+                    className="rounded-full border bg-accent p-2 text-sm font-semibold text-white hover:scale-105"
+                    onClick={() => handleCancelFriendRequest()}
+                  >
+                    Cancel request
+                  </button>
+                )}
+                {user.relationship === "Received" && (
+                  <button
+                    className="rounded-full border bg-accent p-2 text-sm font-semibold text-white hover:scale-105"
+                    onClick={() => handleAcceptFriendRequest()}
+                  >
+                    Accept Request
+                  </button>
+                )}
+                {user.relationship === "Friends" && (
+                  <button
+                    className="rounded-full border bg-accent p-2 text-sm font-semibold text-white hover:scale-105"
+                    onClick={() => handleUnfriend()}
+                  >
+                    Unfriend
+                  </button>
+                )}
               </div>
             )}
           </div>

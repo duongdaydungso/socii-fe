@@ -25,7 +25,7 @@ export default function NewsfeedPage() {
     fetchNewsfeedData().then((value) => {
       if (value.error === 0) setNewsfeedData(value.data);
     });
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className="border-layout">

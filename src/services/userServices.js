@@ -35,7 +35,7 @@ export const sendFriendRequest = (token, friendID) => {
 
 export const removeFriend = (token, friendID) => {
   return axios({
-    method: "post",
+    method: "delete",
     url: `/api/user/removeFriend`,
     headers: {
       Authorization: token,
@@ -55,6 +55,32 @@ export const acceptFriendRequest = (token, friendID) => {
     },
     data: {
       friendId: friendID,
+    },
+  });
+};
+
+export const cancelFriendRequest = (token, friendID) => {
+  return axios({
+    method: "delete",
+    url: `/api/user/cancelFriendRequest`,
+    headers: {
+      Authorization: token,
+    },
+    data: {
+      friendId: friendID,
+    },
+  });
+};
+
+export const getRelationship = (token, userID) => {
+  return axios({
+    method: "post",
+    url: `/api/user/getRelationship`,
+    headers: {
+      Authorization: token,
+    },
+    data: {
+      userId: userID,
     },
   });
 };
