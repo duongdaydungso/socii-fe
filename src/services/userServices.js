@@ -59,6 +59,19 @@ export const acceptFriendRequest = (token, friendID) => {
   });
 };
 
+export const rejectFriendRequest = (token, friendID) => {
+  return axios({
+    method: "delete",
+    url: `/api/user/rejectFriendRequest`,
+    headers: {
+      Authorization: token,
+    },
+    data: {
+      friendId: friendID,
+    },
+  });
+};
+
 export const cancelFriendRequest = (token, friendID) => {
   return axios({
     method: "delete",
@@ -167,7 +180,7 @@ export const checkCommentLike = (token, commentID) => {
 
 export const deleteComment = (token, commentID) => {
   return axios({
-    method: "post",
+    method: "delete",
     url: `/api/post/removeCommentFromPost`,
     headers: {
       Authorization: token,

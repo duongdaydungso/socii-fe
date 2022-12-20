@@ -24,6 +24,7 @@ import {
   removeFriend,
   cancelFriendRequest,
   acceptFriendRequest,
+  rejectFriendRequest,
 } from "../../services/userServices";
 
 export async function profileLoader({ params }) {
@@ -149,6 +150,19 @@ const ProfilePage = () => {
     });
   };
 
+  const handleRejectFriendRequest = () => {
+    rejectFriendRequest(tmpUser.token, userData.id).then((res) => {
+      swal({
+        icon: "success",
+        text: res.message,
+        button: false,
+        timer: 1500,
+      });
+
+      fetchRelationship();
+    });
+  };
+
   return (
     <div className="">
       <div className="border-layout flex min-w-[380px] max-w-[600px] flex-1 shrink-0 flex-col border-x dark:text-white sm:min-w-[600px]">
@@ -201,6 +215,14 @@ const ProfilePage = () => {
                     onClick={() => handleCancelFriendRequest()}
                   >
                     Cancel request
+                  </button>
+                )}
+                {user.relationship === "Received" && (
+                  <button
+                    className="rounded-full border bg-red-500 p-2 text-sm font-semibold text-white hover:scale-105"
+                    onClick={() => handleRejectFriendRequest()}
+                  >
+                    Reject Request
                   </button>
                 )}
                 {user.relationship === "Received" && (

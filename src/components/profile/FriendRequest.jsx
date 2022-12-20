@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
 
+import swal from "sweetalert";
+
 import { getUserDescriptionByID } from "../../services/publicServices";
-import { acceptFriendRequest } from "../../services/userServices";
+import {
+  acceptFriendRequest,
+  rejectFriendRequest,
+} from "../../services/userServices";
 
 import { useSelector } from "react-redux";
 import { selectAuth } from "../../redux/auth/authSlice";
@@ -23,7 +28,25 @@ const FriendRequest = ({ userRequest, changer }) => {
 
   const handleAcceptFriendRequest = () => {
     acceptFriendRequest(tmpAuth.token, userReq.id).then((res) => {
-      alert(res.message);
+      swal({
+        icon: "success",
+        text: res.message,
+        button: false,
+        timer: 1500,
+      });
+
+      changer();
+    });
+  };
+
+  const handleRejectFriendRequest = () => {
+    rejectFriendRequest(tmpAuth.token, userReq.id).then((res) => {
+      swal({
+        icon: "success",
+        text: res.message,
+        button: false,
+        timer: 1500,
+      });
 
       changer();
     });
@@ -55,12 +78,18 @@ const FriendRequest = ({ userRequest, changer }) => {
           </p>
         </div>
       </div>
-      <div className="-mr-1 mt-3 space-x-2">
+      <div className="-mr-1 mt-3 grid justify-items-end space-x-2 space-y-1">
         <button
-          className="rounded-xl bg-accent p-1 text-sm hover:scale-105"
+          className="w-16 rounded-xl bg-accent p-1 text-sm hover:scale-105"
           onClick={() => handleAcceptFriendRequest()}
         >
           Accept
+        </button>
+        <button
+          className="w-16 rounded-xl bg-red-500 p-1 text-sm hover:scale-105"
+          onClick={() => handleRejectFriendRequest()}
+        >
+          Reject
         </button>
       </div>
     </div>

@@ -33,8 +33,6 @@ const PostInput = () => {
   };
 
   const sendPost = () => {
-    console.log(input);
-    console.log(selectedFile);
     createPost(userData.token, input, selectedFile).then((res) => {
       if (res.error === 0) alert(res.message);
       else console.log(res.message);
