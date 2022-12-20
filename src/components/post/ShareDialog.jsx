@@ -2,7 +2,6 @@ import { useState } from "react";
 import TextareaAutosize from "react-textarea-autosize";
 import { BsEmojiSmile } from "react-icons/bs";
 import Picker from "@emoji-mart/react";
-import { useLoaderData } from "react-router-dom";
 
 const ShareDialog = () => {
   const [input, setInput] = useState("");

@@ -79,6 +79,10 @@ const ProfilePage = () => {
     fetchUserData();
   }, [triggerFetch]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  useEffect(() => {
+    if (userData.id !== loaderData.id) fetchUserData();
+  }, [userData]); // eslint-disable-line react-hooks/exhaustive-deps
+
   const user = {
     name: userData.name,
     wallpaper: userData.profile.wallpaper,

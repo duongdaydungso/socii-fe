@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from "react";
 
+import { useLocation, useNavigate } from "react-router";
+
+import { pagePath } from "../../utils/routeConstants";
+
 import swal from "sweetalert";
 
 import { getUserDescriptionByID } from "../../services/publicServices";
@@ -15,6 +19,9 @@ const FriendRequest = ({ userRequest, changer }) => {
   const [userRequestName, setUserRequestName] = useState();
   const [userRequestAvatar, setUserRequestAvatar] = useState();
   const [userRequestDescription, setUserRequestDescription] = useState();
+
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     getUserDescriptionByID(userRequest.senderId).then((res) => {
@@ -70,7 +77,15 @@ const FriendRequest = ({ userRequest, changer }) => {
           className="mt-4 w-14 rounded-full"
         />
         <div className="flex flex-col">
-          <span className="text-[17px] font-[800] hover:underline dark:text-white">
+          <span
+            className="text-[17px] font-[800] hover:cursor-pointer hover:underline dark:text-white"
+            onClick={() => {
+              navigate(pagePath.PROFILE + "/" + userReq.id, {
+                replace: true,
+                state: { from: location },
+              });
+            }}
+          >
             {userReq.name}
           </span>
           <p className="text-xs text-[black]/50 dark:text-[white]/50">
