@@ -44,7 +44,7 @@ const LeftBar = () => {
   return (
     <div className="border-layout sticky top-0 flex h-screen w-[70px] shrink-0 justify-center border-r lg:w-[280px]">
       <div className="sticky top-0 flex w-[73%] flex-col items-center lg:ml-8 lg:items-start">
-        <Link className="mt-5 h-12 w-12 lg:ml-[8px]" to="/">
+        <Link className="mt-5 flex h-12 w-12 lg:ml-[8px] " to="/">
           <img
             alt="logo"
             src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Android_O_Preview_Logo.png/900px-Android_O_Preview_Logo.png"

@@ -3,11 +3,48 @@ import * as Yup from "yup";
 import { useFormik } from "formik";
 import { Link } from "react-router-dom";
 
+import { useNavigate } from "react-router-dom";
+
+import swal from "sweetalert";
+
+import { registerAPI } from "../../services/publicServices";
+
 const RegisterForm = () => {
+  const navigate = useNavigate();
+
+  const handleRegister = async (email, password, name, age, gender) => {
+    try {
+      await registerAPI(email, password, name, Number(age), gender).then(
+        (res) => {
+          if (res.error === 0) {
+            swal({
+              icon: "success",
+              text: res.message,
+              button: false,
+              timer: 1500,
+            });
+
+            navigate("/");
+          } else {
+            swal({
+              icon: "error",
+              text: res.message,
+              button: false,
+              timer: 3000,
+            });
+
+            console.log(res);
+          }
+        }
+      );
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   const formik = useFormik({
     initialValues: {
-      firstName: "",
-      lastName: "",
+      name: "",
       email: "",
       age: "",
       gender: "",
@@ -15,69 +52,50 @@ const RegisterForm = () => {
       confirmedPassword: "",
     },
     validationSchema: Yup.object({
-      firstName: Yup.string()
-        .required("Required")
-        .min(2, "Must be at least 2 characters"),
-      lastName: Yup.string()
-        .required("Required")
-        .min(2, "Must be at least 2 characters"),
+      name: Yup.string().required("Required"),
       email: Yup.string().required("Required"),
       age: Yup.number()
         .required("Required")
         .positive("Enter a positive number")
         .integer("Invalid"),
       gender: Yup.string().required("Required"),
-
       password: Yup.string().required("Required"),
       confirmedPassword: Yup.string()
         .required("Required")
         .oneOf([Yup.ref("password"), null], "Password must match"),
     }),
     onSubmit: (values) => {
-      console.log(values);
+      handleRegister(
+        values.email,
+        values.password,
+        values.name,
+        values.age,
+        values.gender
+      );
     },
   });
 
   return (
     <section>
       <form className="space-y-2 md:space-y-3" onSubmit={formik.handleSubmit}>
-        {/* FULL NAME */}
+        {/* NAME */}
         <div>
           <div id="fullName" className="flex flex-row">
-            <div id="firstName" className="mr-2 w-1/2">
+            <div id="name" className="w-full">
               <label className="mb-1 block text-sm font-medium text-gray-900 dark:text-white">
-                First Name
+                Name
               </label>
               <input
                 type="text"
-                name="firstName"
+                name="name"
                 className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2 text-gray-900 focus:border-accentLight focus:ring-accentLight dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
                 onChange={formik.handleChange}
                 placeholder="John"
-                value={formik.values.firstName}
+                value={formik.values.name}
               />
-              {formik.errors.firstName && (
+              {formik.errors.name && (
                 <span className="text-xs text-red-400">
-                  {formik.errors.firstName}
-                </span>
-              )}
-            </div>
-            <div id="lastName" className="w-1/2">
-              <label className="mb-1 block text-sm font-medium text-gray-900 dark:text-white">
-                Last Name
-              </label>
-              <input
-                type="text"
-                name="lastName"
-                className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2 text-gray-900 focus:border-accentLight focus:ring-accentLight dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
-                onChange={formik.handleChange}
-                value={formik.values.lastName}
-                placeholder="Doe"
-              />
-
-              {formik.errors.lastName && (
-                <span className="text-xs text-red-400">
-                  {formik.errors.lastName}
+                  {formik.errors.name}
                 </span>
               )}
             </div>

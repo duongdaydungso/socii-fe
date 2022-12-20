@@ -125,18 +125,20 @@ export const toggleCommentLike = (token, commentID) => {
 };
 
 export const createPost = (token, content, file) => {
-  return axios({
-    method: "post",
-    url: `/api/post/addPost`,
+  const formData = new FormData();
+
+  formData.append("content", content);
+  formData.append("type", "post");
+  formData.append("file", file);
+
+  const config = {
     headers: {
       Authorization: token,
+      "Content-Type": "multipart/form-data",
     },
-    data: {
-      content: content,
-      type: "post",
-      file: file,
-    },
-  });
+  };
+
+  return axios.post(`/api/post/addPost`, formData, config);
 };
 
 export const deletePost = (token, postID) => {

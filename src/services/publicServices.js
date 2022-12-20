@@ -7,10 +7,13 @@ export const loginAPI = (userEmail, userPassword) => {
   });
 };
 
-export const registerAPI = (userEmail, userPassword) => {
+export const registerAPI = (email, password, name, age, gender) => {
   return axios.post("/api/auth/register", {
-    email: userEmail,
-    password: userPassword,
+    email: email,
+    password: password,
+    name: name,
+    age: age,
+    gender: gender,
   });
 };
 
