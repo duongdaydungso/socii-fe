@@ -9,7 +9,6 @@ import autoMergeLevel2 from "redux-persist/lib/stateReconciler/autoMergeLevel2";
 import { persistReducer, persistStore } from "redux-persist";
 
 import authReducer from "./auth/authSlice";
-import darkModeReducer from "./dark_mode/darkModeSlice";
 
 const reduxStateSyncConfig = {
   blacklist: [],
@@ -27,13 +26,11 @@ const createPersistReducer = (key, aReducer) => {
 
 const reducer = {
   auth: createPersistReducer("auth", authReducer),
-  darkmode: createPersistReducer("darkmode", darkModeReducer),
 };
 
-const middleware = [
-  thunkMiddleware,
-  createStateSyncMiddleware(reduxStateSyncConfig),
-];
+const stateSyncMiddleware = createStateSyncMiddleware(reduxStateSyncConfig);
+
+const middleware = [thunkMiddleware, stateSyncMiddleware];
 
 export const store = configureStore({
   reducer: reducer,

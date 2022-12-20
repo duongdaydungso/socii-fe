@@ -1,5 +1,7 @@
 export const pagePath = {
   ROOT: "/",
-  LOGIN: "/login",
   REGISTER: "/register",
+  NEWSFEED: "/",
+  PROFILE: "/profile",
+  POST: "/post",
 };

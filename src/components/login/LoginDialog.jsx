@@ -13,7 +13,7 @@ import {
   faUserPlus,
 } from "@fortawesome/free-solid-svg-icons";
 
-import { loginAPI } from "../../services/userServices";
+import { loginAPI } from "../../services/publicServices";
 
 const humanIconSVG =
   "M 32 2 A 1 1 0 0 0 32 32 C 12 32 2 42 2 62 L 62 62 C 62 42 52 32 32 32 A 1 1 0 0 0 32 2";
@@ -29,10 +29,17 @@ export default function LoginPage() {
   const handleLogin = async () => {
     try {
       await loginAPI(email, password).then((res) => {
-        if (res.accessToken) {
-          console.log(res.accessToken);
-
-          dispact(assignToken({ token: res.accessToken }));
+        if (res.data.accessToken) {
+          dispact(
+            assignToken({
+              token: res.data.accessToken,
+              userID: res.data.id,
+              userType: res.data.userType,
+              userEmail: res.data.email,
+              userName: res.data.name,
+              userAvatar: res.data.avatar,
+            })
+          );
         }
       });
     } catch (e) {
@@ -41,7 +48,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="login-background flex h-screen w-screen bg-gradient-to-r from-[blue] to-[pink]">
+    <div className="login-background flex bg-opacity-75 bg-gradient-to-r from-accent to-[#CBEDD5] p-3">
       <div className="login-container m-auto flex h-[470px] w-[450px]">
         <div className="human-icon-container absolute mx-[165px] mt-0 flex h-[120px] w-[120px] rounded-full bg-black-blue">
           <svg className="m-auto h-[64px] w-[64px]">
