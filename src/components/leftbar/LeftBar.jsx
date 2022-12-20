@@ -77,7 +77,7 @@ const LeftBar = () => {
             <div className="post-btn-transition ml-[2px] mt-6 flex h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-accentLight lg:hidden lg:w-[200px]">
               <BsBrush className="h-6 w-6" />
             </div>
-            <button className="post-btn-transition mt-6 -ml-1 hidden h-12 w-[90%] rounded-full bg-accentLight lg:ml-3 lg:inline">
+            <button className="post-btn-transition mt-6 -ml-1 hidden h-12 w-[95%] rounded-full bg-accentLight lg:ml-1 lg:inline">
               <span className="font-bold text-white">Post</span>
             </button>
           </div>

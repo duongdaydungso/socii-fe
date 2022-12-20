@@ -29,7 +29,7 @@ const ProfileSearch = () => {
           </p>
         </div>
       </div>
-      <button className="whitespace-nowrap rounded-xl bg-slate-100 p-1 text-sm text-dark hover:bg-accentLight">
+      <button className="whitespace-nowrap rounded-xl bg-slate-100 p-1 text-sm text-dark hover:bg-slate-300">
         Unfriend
       </button>
     </div>
