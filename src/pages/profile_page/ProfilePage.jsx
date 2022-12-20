@@ -6,6 +6,8 @@ import { useLoaderData } from "react-router-dom";
 
 import Navbar from "../../components/navbar/Navbar";
 
+import swal from "sweetalert";
+
 import ProfileEditing from "./ProfileEditing";
 import PostCard from "../../components/post/PostCard";
 
@@ -80,15 +82,24 @@ const ProfilePage = () => {
 
   const handleSendFriendRequest = () => {
     sendFriendRequest(tmpUser.token, userData.id).then((res) => {
-      alert(res.message);
-
+      swal({
+        icon: "success",
+        text: res.message,
+        button: false,
+        timer: 1500,
+      });
       fetchRelationship();
     });
   };
 
   const handleUnfriend = () => {
     removeFriend(tmpUser.token, userData.id).then((res) => {
-      alert(res.message);
+      swal({
+        icon: "success",
+        text: res.message,
+        button: false,
+        timer: 1500,
+      });
 
       fetchRelationship();
     });
@@ -96,7 +107,12 @@ const ProfilePage = () => {
 
   const handleCancelFriendRequest = () => {
     cancelFriendRequest(tmpUser.token, userData.id).then((res) => {
-      alert(res.message);
+      swal({
+        icon: "success",
+        text: res.message,
+        button: false,
+        timer: 1500,
+      });
 
       fetchRelationship();
     });
@@ -104,7 +120,12 @@ const ProfilePage = () => {
 
   const handleAcceptFriendRequest = () => {
     acceptFriendRequest(tmpUser.token, userData.id).then((res) => {
-      alert(res.message);
+      swal({
+        icon: "success",
+        text: res.message,
+        button: false,
+        timer: 1500,
+      });
 
       fetchRelationship();
     });
@@ -150,7 +171,7 @@ const ProfilePage = () => {
                 </div>
                 {user.relationship === "None" && (
                   <button
-                    className="rounded-full border bg-accent p-2 text-sm font-semibold text-white hover:scale-105"
+                    className="rounded-full border bg-accent p-2 text-sm font-semibold text-white hover:bg-accentLight"
                     onClick={() => handleSendFriendRequest()}
                   >
                     Add Friend
@@ -158,7 +179,7 @@ const ProfilePage = () => {
                 )}
                 {user.relationship === "Sent" && (
                   <button
-                    className="rounded-full border bg-accent p-2 text-sm font-semibold text-white hover:scale-105"
+                    className="rounded-full border bg-slate-100 p-2 text-sm font-semibold text-dark  hover:bg-slate-200"
                     onClick={() => handleCancelFriendRequest()}
                   >
                     Cancel request

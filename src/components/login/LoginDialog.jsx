@@ -17,6 +17,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import { loginAPI } from "../../services/publicServices";
+import swal from "sweetalert";
 
 const humanIconSVG =
   "M 32 2 A 1 1 0 0 0 32 32 C 12 32 2 42 2 62 L 62 62 C 62 42 52 32 32 32 A 1 1 0 0 0 32 2";
@@ -41,7 +42,12 @@ export default function LoginDialog() {
             })
           );
         } else {
-          alert(res.message);
+          swal({
+            icon: "error",
+            text: res.message,
+            button: false,
+            timer: 2000,
+          });
 
           formik.resetForm();
         }
