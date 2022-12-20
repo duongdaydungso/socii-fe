@@ -10,9 +10,9 @@ import HomePage from "./pages/home_page/HomePage";
 import IntroPage from "./pages/intro_page/IntroPage";
 import RegisterPage from "./pages/register_page/RegisterPage";
 import ErrorPage from "./pages/error_page/ErrorPage";
-import ProfilePage from "./pages/profile_page/ProfilePage";
+import ProfilePage, { profileLoader } from "./pages/profile_page/ProfilePage";
 import SearchPage from "./pages/search_page/SearchPage";
-import PostPage from "./pages/post_page/PostPage";
+import PostPage, { postLoader } from "./pages/post_page/PostPage";
 import NewsfeedPage from "./pages/newsfeed_page/NewsfeedPage";
 
 function RequiredAuthHomePage() {
@@ -55,11 +55,13 @@ export const router = createBrowserRouter([
         element: <NewsfeedPage />,
       },
       {
-        path: pagePath.PROFILE,
+        path: pagePath.PROFILE + "/:profileID",
+        loader: profileLoader,
         element: <ProfilePage />,
       },
       {
-        path: pagePath.POST, //post/[id]
+        path: pagePath.POST + "/:postID",
+        loader: postLoader,
         element: <PostPage />,
       },
       {

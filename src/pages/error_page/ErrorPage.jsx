@@ -14,7 +14,7 @@ export default function ErrorPage() {
         We can't find the place you looking for
       </span>
       <Link to="/">
-        <button class="focus:shadow-outline mx-auto block rounded bg-indigo-800 py-3 px-10 text-xs uppercase text-white shadow hover:bg-indigo-700 focus:outline-none">
+        <button className="focus:shadow-outline mx-auto block rounded bg-indigo-800 py-3 px-10 text-xs uppercase text-white shadow hover:bg-indigo-700 focus:outline-none">
           Back To Home Page
         </button>
       </Link>

@@ -28,10 +28,9 @@ const reducer = {
   auth: createPersistReducer("auth", authReducer),
 };
 
-const middleware = [
-  thunkMiddleware,
-  createStateSyncMiddleware(reduxStateSyncConfig),
-];
+const stateSyncMiddleware = createStateSyncMiddleware(reduxStateSyncConfig);
+
+const middleware = [thunkMiddleware, stateSyncMiddleware];
 
 export const store = configureStore({
   reducer: reducer,

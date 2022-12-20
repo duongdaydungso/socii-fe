@@ -1,6 +1,5 @@
 import React from "react";
 import { BiSearchAlt } from "react-icons/bi";
-import FeedTest from "../../components/FeedTest";
 
 const SearchPage = () => {
   return (
@@ -18,7 +17,6 @@ const SearchPage = () => {
             <BiSearchAlt className="absolute top-[25px] left-[44px] h-6 w-6  dark:text-white" />
           </div>
         </div>
-        <FeedTest />
       </div>
     </div>
   );

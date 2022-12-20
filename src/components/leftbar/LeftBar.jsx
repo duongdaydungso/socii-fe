@@ -1,6 +1,6 @@
 import React, { Fragment, useRef, useState } from "react";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { Link } from "react-router-dom";
 
@@ -10,18 +10,26 @@ import { BsBrush } from "react-icons/bs";
 import { FaHome } from "react-icons/fa";
 import { BiLogOut } from "react-icons/bi";
 
-import LeftButton from "./LeftButton";
-import PostInput from "./PostInput";
+import LeftButton from "../buttons/LeftButton";
+import PostInput from "../post/PostInput";
 
-import useClickOutside from "../hooks/useClickOutside";
-import { clearToken } from "../redux/auth/authSlice";
-import { pagePath } from "../utils/routeConstants";
+import useClickOutside from "../../hooks/useClickOutside";
+import { clearToken, selectAuth } from "../../redux/auth/authSlice";
+import { pagePath } from "../../utils/routeConstants";
 
 const LeftBar = () => {
   let [isOpenPostBox, setIsOpenPostBox] = useState(false);
   const postModalref = useRef(null);
 
   const dispatch = useDispatch();
+  const userData = useSelector(selectAuth);
+
+  const user = {
+    name: userData.userName,
+    avatar: userData.userAvatar,
+    email: userData.userEmail,
+    id: userData.userID,
+  };
 
   function closePostBoxModal() {
     setIsOpenPostBox(false);
@@ -32,12 +40,6 @@ const LeftBar = () => {
   }
 
   useClickOutside(postModalref, () => closePostBoxModal());
-
-  const user = {
-    name: "Elon Musk",
-    avatar:
-      "https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTc5OTk2ODUyMTMxNzM0ODcy/gettyimages-1229892983-square.jpg",
-  };
 
   return (
     <div className="border-layout sticky top-0 flex h-screen w-[70px] shrink-0 justify-center border-r lg:w-[280px]">
@@ -56,7 +58,7 @@ const LeftBar = () => {
             <LeftButton Icon={AiOutlineMessage} text="Messages" path="/message" /> */}
             {/*<LeftButton Icon={FaHashtag} text="Explore" />
            /
-          <LeftButton Icon={FaUserFriends} text="Friends" path="/user" />
+          <LeftButton Icon={FaUserFriends} text="Friends" path="" />
           <LeftButton Icon={AiOutlineMessage} text="Messages" />
           <LeftButton Icon={MdOutlineMoreHoriz} text="More" /> */}
           </div>
@@ -70,16 +72,14 @@ const LeftBar = () => {
           </div>
         </div>
         <div className="hoverAnimation mt-auto mb-5 flex items-center space-x-1 p-2 ">
-          <Link to="/user" className="h-14 w-14 ">
+          <Link to={pagePath.PROFILE + "/" + user.id} className="h-14 w-14 ">
             <img src={user.avatar} className="rounded-full" alt="profile" />
           </Link>
 
           <span className="hidden px-2 font-semibold dark:text-white lg:inline">
             {user.name}
             <br />
-            <span className="text-sm opacity-60">
-              {"@" + user.name.toLowerCase().split(" ").join("")}
-            </span>
+            <span className="text-sm opacity-60">{user.email}</span>
           </span>
           <div className="tooltip group hidden lg:inline" data-tip="Log Out">
             <BiLogOut

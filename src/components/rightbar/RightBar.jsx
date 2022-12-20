@@ -1,7 +1,7 @@
 import React from "react";
 
 import { BiSearchAlt } from "react-icons/bi";
-import { ProfileTray } from "./Profile";
+import { ProfileTray } from "../profile/ProfileTray";
 
 const RightBar = () => {
   return (

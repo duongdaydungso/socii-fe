@@ -1,24 +1,31 @@
-import React from "react";
+import { useSelector } from "react-redux";
+import { selectAuth } from "../../redux/auth/authSlice";
+
 import { useState, useRef } from "react";
+
 import TextareaAutosize from "react-textarea-autosize";
 import { BsEmojiSmile, BsImage } from "react-icons/bs";
 import { IoIosClose } from "react-icons/io";
-
-import useClickOutside from "../hooks/useClickOutside";
 import Picker from "@emoji-mart/react";
 
-const PostInput = () => {
+const CommentDialog = () => {
   const [input, setInput] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
   const filePickerRef = useRef(null);
-  const emojiPickerRef = useRef(null);
-
-  useClickOutside(emojiPickerRef, () => setShowEmojis(false));
 
   const [showEmojis, setShowEmojis] = useState(false);
 
+  const userData = useSelector(selectAuth);
+
+  const user = {
+    name: userData.userName,
+    avatar: userData.userAvatar,
+    email: userData.userEmail,
+    id: userData.userID,
+  };
+
   const sendPost = () => {
-    console.log(input);
+    console.log("send");
   };
 
   const addImageToPost = (e) => {
@@ -40,16 +47,8 @@ const PostInput = () => {
     setInput(input + emoji);
   };
 
-  const user = {
-    name: "Nghia Mai",
-
-    id: "abc",
-    avatar:
-      "https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTc5OTk2ODUyMTMxNzM0ODcy/gettyimages-1229892983-square.jpg",
-  };
-
   return (
-    <div className="border-layout mr-3 flex flex-1 space-x-5 border-b bg-slate-100 dark:bg-dark dark:text-white">
+    <div className="border-layout mr-3 flex space-x-5 border-b py-5 dark:bg-dark dark:text-white">
       <img
         className="ml-6 flex h-14 cursor-pointer rounded-full"
         src={user.avatar}
@@ -57,10 +56,10 @@ const PostInput = () => {
       />
       <div className="flex w-[80%] flex-col">
         <TextareaAutosize
-          minRows={2}
-          maxRows={15}
-          className="mt-2 resize-none bg-inherit text-2xl font-semibold outline-none dark:text-white"
-          placeholder="What's happening ?"
+          minRows={1}
+          maxRows={8}
+          className="my-2 resize-none bg-inherit pb-4 text-2xl font-semibold outline-none dark:text-white"
+          placeholder="Write your comment"
           value={input}
           onChange={(e) => setInput(e.target.value)}
         />
@@ -79,7 +78,7 @@ const PostInput = () => {
           </div>
         )}
 
-        <div className="flex items-center justify-between text-accentLight">
+        <div className="flex items-center justify-between text-accent">
           <div className="flex pt-8 pb-3">
             <div
               className="hoverAnimation group flex h-8 w-8 items-center justify-center"
@@ -94,35 +93,32 @@ const PostInput = () => {
               />
             </div>
 
-            <button
-              disabled={showEmojis}
-              onClick={(showEmojis) => {
-                if (showEmojis) setShowEmojis(true);
-              }}
+            <div
+              onClick={() => setShowEmojis(!showEmojis)}
               className="hoverAnimation group flex h-8 w-8 items-center justify-center"
             >
               <BsEmojiSmile className="h-5 w-5 group-hover:text-accent" />
-            </button>
+            </div>
 
             {showEmojis && (
-              <div className="absolute z-50 mt-7" ref={emojiPickerRef}>
+              <div className="absolute z-50 mt-7">
                 <Picker autoFocus onEmojiSelect={addEmoji} theme="dark" />
               </div>
             )}
 
             {/* <div className="hoverAnimation group flex h-8 w-8 items-center justify-center">
-              <HiOutlineLocationMarker className="h-5 w-5 group-hover:text-accent" />
-            </div>
-            <div className="hoverAnimation group flex h-8 w-8 items-center justify-center">
-              <MdOutlineSchedule className="h-5 w-5 group-hover:text-accent" />
-            </div> */}
+                <HiOutlineLocationMarker className="h-5 w-5 group-hover:text-accent" />
+              </div>
+              <div className="hoverAnimation group flex h-8 w-8 items-center justify-center">
+                <MdOutlineSchedule className="h-5 w-5 group-hover:text-accent" />
+              </div> */}
           </div>
           <button
             disabled={!input && !selectedFile}
             onClick={sendPost}
-            className="post-btn-transition mt-4 mr-4 h-10 w-[20%] rounded-full bg-accentLight disabled:opacity-50"
+            className="post-btn-transition mt-4 mr-4 h-10 w-[20%] rounded-full bg-accentLight hover:cursor-pointer disabled:opacity-50"
           >
-            <span className="font-bold text-white">Post</span>
+            <span className="font-bold text-white">Comment</span>
           </button>
         </div>
       </div>
@@ -130,4 +126,4 @@ const PostInput = () => {
   );
 };
 
-export default PostInput;
+export default CommentDialog;

@@ -30,7 +30,7 @@ const ProfileEditing = () => {
         </div>
         <div className="mx-5">
           <div className="mb-6">
-            <label for="Name" className="mb-2 block text-sm font-medium">
+            <label htmlFor="Name" className="mb-2 block text-sm font-medium">
               Name
             </label>
             <input
@@ -39,7 +39,7 @@ const ProfileEditing = () => {
             />
           </div>
           <div className="mb-6">
-            <label for="Bio" className="blocktext-sm mb-2 font-medium">
+            <label htmlFor="Bio" className="blocktext-sm mb-2 font-medium">
               Bio
             </label>
             <input className="block w-full rounded-lg border p-2 outline-none" />

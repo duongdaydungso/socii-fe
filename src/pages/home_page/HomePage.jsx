@@ -1,5 +1,5 @@
-import LeftBar from "../../components/LeftBar";
-import RightBar from "../../components/RightBar";
+import LeftBar from "../../components/leftbar/LeftBar";
+import RightBar from "../../components/rightbar/RightBar";
 import { Outlet } from "react-router-dom";
 
 export default function HomePage() {

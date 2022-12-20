@@ -1,13 +1,12 @@
 import { FaHashtag } from "react-icons/fa";
 import { IoIosClose } from "react-icons/io";
 import { BiSearchAlt } from "react-icons/bi";
-import LeftButton from "../../components/LeftButton";
-import Navbar from "../../components/Navbar";
+import LeftButton from "../../components/buttons/LeftButton";
+import Navbar from "../../components/navbar/Navbar";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
-import LoginDialog from "../../components/LoginDialog";
-import { ProfileTray } from "../../components/Profile";
-import FeedTest from "../../components/FeedTest";
+import LoginDialog from "../../components/login/LoginDialog";
+import { ProfileTray } from "../../components/profile/ProfileTray";
 
 export default function IntroPage() {
   let [isOpenLoginModal, setIsOpenLoginModal] = useState(false);
@@ -51,7 +50,6 @@ export default function IntroPage() {
           {/*famous post*/}
           <div className="mt-3 flex w-full flex-col">
             <div className="content-title mb-3">What's happening?</div>
-            <FeedTest />
 
             {/*famous guy*/}
             <div className="border-layout mt-3 flex flex-col justify-center border-t">

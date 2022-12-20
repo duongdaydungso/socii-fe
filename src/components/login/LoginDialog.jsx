@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import { useDispatch } from "react-redux";
 
-import { assignToken } from "../redux/auth/authSlice";
+import { assignToken } from "../../redux/auth/authSlice";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -13,7 +13,7 @@ import {
   faUserPlus,
 } from "@fortawesome/free-solid-svg-icons";
 
-import { loginAPI } from "../services/userServices";
+import { loginAPI } from "../../services/publicServices";
 
 const humanIconSVG =
   "M 32 2 A 1 1 0 0 0 32 32 C 12 32 2 42 2 62 L 62 62 C 62 42 52 32 32 32 A 1 1 0 0 0 32 2";
@@ -30,7 +30,16 @@ export default function LoginPage() {
     try {
       await loginAPI(email, password).then((res) => {
         if (res.data.accessToken) {
-          dispact(assignToken({ token: res.data.accessToken }));
+          dispact(
+            assignToken({
+              token: res.data.accessToken,
+              userID: res.data.id,
+              userType: res.data.userType,
+              userEmail: res.data.email,
+              userName: res.data.name,
+              userAvatar: res.data.avatar,
+            })
+          );
         }
       });
     } catch (e) {

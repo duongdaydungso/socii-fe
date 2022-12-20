@@ -1,25 +1,48 @@
 import React, { Fragment, useState } from "react";
 
-import Navbar from "../../components/Navbar";
-import FeedTest from "../../components/FeedTest";
+import { useSelector } from "react-redux";
+
+import { useLoaderData } from "react-router-dom";
+
+import Navbar from "../../components/navbar/Navbar";
 
 import ProfileEditing from "./ProfileEditing";
+import PostCard from "../../components/post/PostCard";
 
 import { TbMail } from "react-icons/tb";
 import { HiDotsHorizontal } from "react-icons/hi";
 import { Dialog, Transition } from "@headlessui/react";
+import { getDataUserByID } from "../../services/publicServices";
+import { selectAuth } from "../../redux/auth/authSlice";
+
+export async function profileLoader({ params }) {
+  const profileID = Number(params.profileID);
+
+  const res = await getDataUserByID(profileID);
+
+  return res;
+}
 
 const ProfilePage = () => {
+  const loaderData = useLoaderData();
+  if (loaderData.error !== 0) console.log(loaderData);
+
+  const userData = loaderData.data;
+
   let [isOpenEditBox, setIsOpenEditBox] = useState(false);
 
-  const isAccOwner = true;
+  const tmpUser = useSelector(selectAuth);
+  const isAccOwner = userData.id === tmpUser.userID;
 
   const user = {
-    name: "Elon Musk",
-    wallpaper:
-      "https://pbs.twimg.com/profile_banners/44196397/1576183471/1080x360",
-    avatar:
-      "https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTc5OTk2ODUyMTMxNzM0ODcy/gettyimages-1229892983-square.jpg",
+    name: userData.name,
+    wallpaper: userData.profile.wallpaper,
+    avatar: userData.profile.avatar,
+    userPost: userData.posts,
+    friendList: userData.hasFriends,
+    email: userData.email,
+    description: userData.profile.description,
+    age: userData.profile.age,
   };
 
   function closeEditBox() {
@@ -39,13 +62,16 @@ const ProfilePage = () => {
             <img src={user.wallpaper} alt="" />
           </div>
           <div className="ml-3 -mt-20 mr-4 flex ">
-            <div className="flex flex-col items-center">
+            <div className="items-left flex flex-col">
               <img
                 className="h-36 rounded-full border-[3px] border-lime-50"
                 src={user.avatar}
                 alt="avatar"
               />
-              <span className="text-[22px] font-[1000]">{user.name}</span>
+              <span className="ml-5 text-[22px] font-[1000]">{user.name}</span>
+              <span className="ml-5 text-[18px] font-[500] text-[grey]">
+                {user.email}
+              </span>
             </div>
 
             {isAccOwner ? (
@@ -71,26 +97,26 @@ const ProfilePage = () => {
               </div>
             )}
           </div>
-          <div className="flex flex-col">
+          <div className="mt-4 flex flex-col">
             <div className="mb-4 flex space-x-3 text-sm">
-              <span className="ml-8">100 friends</span>
+              <span className="ml-8">
+                {user.friendList.length}
+                {user.friendList.length > 1 ? " friends" : " friend"}
+              </span>
+            </div>
+            <div className="mb-4 flex space-x-3 text-sm">
+              <span className="ml-8">{"Age: " + user.age}</span>
             </div>
 
-            <p className="mx-2 -mt-2 px-6">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum.
-            </p>
+            <p className="mx-2 -mt-2 px-6">{user.description}</p>
           </div>
         </div>
         <div className="mt-3">
           <span className="content-title">Posts</span>
-          <FeedTest></FeedTest>
         </div>
+        {user.userPost.map((post) => (
+          <PostCard postData={post} key={post.id} canClick />
+        ))}
       </div>
 
       <Transition appear show={isOpenEditBox} as={Fragment}>
