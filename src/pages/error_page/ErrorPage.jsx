@@ -5,7 +5,7 @@ export default function ErrorPage() {
     <div className="flex h-screen flex-col items-center justify-center space-y-5 bg-dark">
       <div className="flex h-36 w-36">
         <img
-          src="https://streamsentials.com/wp-content/uploads/2022/05/HUH-PNG.png"
+          src="https://pbs.twimg.com/media/FPOauJfXwAEYG1A?format=png&name=240x240"
           alt=""
         />
       </div>
