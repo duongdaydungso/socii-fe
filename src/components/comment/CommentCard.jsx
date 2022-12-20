@@ -12,13 +12,16 @@ import {
 } from "../../services/userServices";
 
 import {
-  BsChat,
-  BsShare,
-  BsTrash,
+  //   BsChat,
+  //   BsShare,
+  //   BsTrash,
   BsFillHeartFill,
   BsHeart,
 } from "react-icons/bs";
-import { HiDotsHorizontal, HiSwitchHorizontal } from "react-icons/hi";
+import {
+  HiDotsHorizontal,
+  // HiSwitchHorizontal
+} from "react-icons/hi";
 
 import { getTimestamp } from "../../utils/getTimestamp";
 import { pagePath } from "../../utils/routeConstants";
@@ -27,7 +30,7 @@ const CommentCard = ({ commentData, triggerFetch }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const sessionUIDEqualsCOMENTUID = false;
+  //   const sessionUIDEqualsCOMENTUID = false;
 
   const tmpUser = useSelector(selectAuth);
 

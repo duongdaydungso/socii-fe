@@ -1,9 +1,9 @@
 export default function LoadingPage() {
   return (
-    <div class="fixed top-0 left-0 right-0 bottom-0 z-50 flex h-screen w-full flex-col items-center justify-center overflow-hidden bg-slate-300 opacity-80">
+    <div className="fixed top-0 left-0 right-0 bottom-0 z-50 flex h-screen w-full flex-col items-center justify-center overflow-hidden bg-slate-300 opacity-80">
       <svg
         aria-hidden="true"
-        class="mr-2 h-8 w-8 animate-spin fill-accent text-gray-400 dark:text-gray-600"
+        className="mr-2 h-8 w-8 animate-spin fill-accent text-gray-400 dark:text-gray-600"
         viewBox="0 0 100 101"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
