@@ -4,4 +4,5 @@ export const pagePath = {
   NEWSFEED: "/",
   PROFILE: "/profile",
   POST: "/post",
+  FRIENDLIST: "/friendlist",
 };
