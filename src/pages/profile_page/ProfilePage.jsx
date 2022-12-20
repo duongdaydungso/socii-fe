@@ -38,13 +38,27 @@ const ProfilePage = () => {
   const loaderData = useLoaderData();
   if (loaderData.error !== 0) console.log(loaderData);
 
-  const userData = loaderData.data;
+  const [userData, setUserData] = useState(loaderData.data);
 
   const [isOpenEditBox, setIsOpenEditBox] = useState(false);
   const [userRelationship, setUserRelationship] = useState(null);
 
+  const [triggerFetch, setTriggerFetch] = useState(0);
+
+  const doTriggerFetch = () => {
+    setTriggerFetch(triggerFetch + 1);
+  };
+
   const tmpUser = useSelector(selectAuth);
   const isAccOwner = tmpUser.userID && userData.id === tmpUser.userID;
+
+  const fetchUserData = () => {
+    getDataUserByID(loaderData.data.id).then((res) => {
+      if (res.error === 0) {
+        setUserData(res.data);
+      } else console.log(res.message);
+    });
+  };
 
   const fetchRelationship = () => {
     if (tmpUser.userID && !isAccOwner) {
@@ -59,6 +73,10 @@ const ProfilePage = () => {
   useEffect(() => {
     fetchRelationship();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    fetchUserData();
+  }, [triggerFetch]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const user = {
     name: userData.name,
@@ -222,7 +240,12 @@ const ProfilePage = () => {
           <span className="content-title">Posts</span>
         </div>
         {user.userPost.map((post) => (
-          <PostCard postData={post} key={post.id} canClick />
+          <PostCard
+            postData={post}
+            key={post.id}
+            canClick
+            triggerFetch={doTriggerFetch}
+          />
         ))}
       </div>
 

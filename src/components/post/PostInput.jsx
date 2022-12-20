@@ -11,6 +11,8 @@ import { IoIosClose } from "react-icons/io";
 import useClickOutside from "../../hooks/useClickOutside";
 import Picker from "@emoji-mart/react";
 
+import { createPost } from "../../services/userServices";
+
 const PostInput = () => {
   const [input, setInput] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
@@ -31,7 +33,10 @@ const PostInput = () => {
   };
 
   const sendPost = () => {
-    console.log(input);
+    createPost(userData.token, input, selectedFile).then((res) => {
+      if (res.error === 0) alert(res.message);
+      else console.log(res.message);
+    });
   };
 
   const addImageToPost = (e) => {

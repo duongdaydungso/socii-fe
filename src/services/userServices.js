@@ -84,3 +84,82 @@ export const getRelationship = (token, userID) => {
     },
   });
 };
+
+export const togglePostLike = (token, postID) => {
+  return axios({
+    method: "post",
+    url: `/api/post/togglePostLike`,
+    headers: {
+      Authorization: token,
+    },
+    data: {
+      postId: postID,
+    },
+  });
+};
+
+export const toggleCommentLike = (token, commentID) => {
+  return axios({
+    method: "post",
+    url: `/api/post/toggleCommentLike`,
+    headers: {
+      Authorization: token,
+    },
+    data: {
+      commentId: commentID,
+    },
+  });
+};
+
+export const createPost = (token, content, file) => {
+  return axios({
+    method: "post",
+    url: `/api/post/addPost`,
+    headers: {
+      Authorization: token,
+    },
+    data: {
+      content: content,
+      file: file,
+    },
+  });
+};
+
+export const deletePost = (token, postID) => {
+  return axios({
+    method: "delete",
+    url: `/api/post/removePost`,
+    headers: {
+      Authorization: token,
+    },
+    data: {
+      postId: postID,
+    },
+  });
+};
+
+export const checkPostLike = (token, postID) => {
+  return axios({
+    method: "post",
+    url: `/api/post/checkPostLike`,
+    headers: {
+      Authorization: token,
+    },
+    data: {
+      postId: postID,
+    },
+  });
+};
+
+export const checkCommentLike = (token, commentID) => {
+  return axios({
+    method: "post",
+    url: `/api/post/checkCommentLike`,
+    headers: {
+      Authorization: token,
+    },
+    data: {
+      commentId: commentID,
+    },
+  });
+};

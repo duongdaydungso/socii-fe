@@ -11,6 +11,11 @@ import PostCard from "../../components/post/PostCard";
 
 export default function NewsfeedPage() {
   const [newsfeedData, setNewsfeedData] = useState([]);
+  const [triggerFetch, setTriggerFetch] = useState(0);
+
+  const doTriggerFetch = () => {
+    setTriggerFetch(triggerFetch + 1);
+  };
 
   const auths = useSelector(selectAuth);
   const accessToken = auths.token;
@@ -27,12 +32,23 @@ export default function NewsfeedPage() {
     });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+  useEffect(() => {
+    fetchNewsfeedData().then((value) => {
+      if (value.error === 0) setNewsfeedData(value.data);
+    });
+  }, [triggerFetch]); // eslint-disable-line react-hooks/exhaustive-deps
+
   return (
     <div className="border-layout">
       <Navbar pageName="News Feed" />
       <PostInput />
       {newsfeedData.map((post) => (
-        <PostCard postData={post} key={post.id} canClick />
+        <PostCard
+          postData={post}
+          key={post.id}
+          canClick
+          triggerFetch={doTriggerFetch}
+        />
       ))}
     </div>
   );

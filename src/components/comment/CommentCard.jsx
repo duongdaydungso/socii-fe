@@ -1,30 +1,39 @@
 import React, { useState, useEffect } from "react";
 
+import { useSelector } from "react-redux";
+import { selectAuth } from "../../redux/auth/authSlice";
+
 import { useNavigate, useLocation } from "react-router-dom";
 
 import { getUserDescriptionByID } from "../../services/publicServices";
+import {
+  checkCommentLike,
+  toggleCommentLike,
+} from "../../services/userServices";
 
 import {
   BsChat,
-  BsFillHeartFill,
-  BsHeart,
   BsShare,
   BsTrash,
+  BsFillHeartFill,
+  BsHeart,
 } from "react-icons/bs";
 import { HiDotsHorizontal, HiSwitchHorizontal } from "react-icons/hi";
 
 import { getTimestamp } from "../../utils/getTimestamp";
 import { pagePath } from "../../utils/routeConstants";
 
-const CommentCard = ({ commentData }) => {
+const CommentCard = ({ commentData, triggerFetch }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
   const sessionUIDEqualsCOMENTUID = false;
-  const liked = false;
+
+  const tmpUser = useSelector(selectAuth);
 
   const [authorAvatar, setAuthorAvatar] = useState("");
   const [authorName, setAuthorName] = useState("");
+  const [liked, setLiked] = useState();
 
   useEffect(() => {
     getUserDescriptionByID(commentData.authorId).then((value) => {
@@ -33,7 +42,7 @@ const CommentCard = ({ commentData }) => {
       setAuthorAvatar(value.data.profile.avatar);
       setAuthorName(value.data.name);
     });
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const comment = {
     id: commentData.id,
@@ -48,8 +57,27 @@ const CommentCard = ({ commentData }) => {
     content: commentData.content,
     timestamp: getTimestamp(commentData.updatedAt),
 
-    comments: [],
-    likes: [],
+    likes: commentData.likes,
+  };
+
+  const fetchLiked = () => {
+    checkCommentLike(tmpUser.token, comment.id).then((res) => {
+      if (res.error === 0) setLiked(res.data);
+      else console.log(res.message);
+    });
+  };
+
+  useEffect(() => {
+    fetchLiked();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const handleLikeComment = () => {
+    toggleCommentLike(tmpUser.token, comment.id).then((res) => {
+      if (res.error !== 0) console.log(res.message);
+
+      fetchLiked();
+      triggerFetch();
+    });
   };
 
   return (
@@ -85,17 +113,13 @@ const CommentCard = ({ commentData }) => {
 
         <div className="mt-2 mr-2">
           {comment.image.length > 0 && (
-            <img
-              className="rounded-2xl"
-              src={comment?.image}
-              alt="comment image"
-            />
+            <img className="rounded-2xl" src={comment?.image} alt="comment" />
           )}
         </div>
 
         <div className="mt-1 -mb-3 flex justify-between pr-2">
           {/* Comment */}
-          <div className="group flex items-center space-x-1 ">
+          {/* <div className="group flex items-center space-x-1 ">
             <div className="post-icon group-hover:bg-[#1d9bf0] group-hover:bg-opacity-10">
               <BsChat className="h-5 group-hover:text-[#1d9bf0]" />
             </div>
@@ -104,10 +128,16 @@ const CommentCard = ({ commentData }) => {
                 {comment.comments.length}
               </span>
             )}
-          </div>
+          </div> */}
           {/* Like */}
           <div className="group flex items-center space-x-1">
-            <div className="post-icon group-hover:bg-pink-600/10">
+            <div
+              className="post-icon group-hover:bg-pink-600/10"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleLikeComment();
+              }}
+            >
               {liked ? (
                 <BsFillHeartFill className="h-5 text-pink-600" />
               ) : (
@@ -125,11 +155,11 @@ const CommentCard = ({ commentData }) => {
             )}
           </div>
           {/* ShareLink */}
-          <div className="post-icon group">
+          {/* <div className="post-icon group">
             <BsShare className="h-5 group-hover:text-[#1d9bf0]" />
-          </div>
+          </div> */}
           {/* Share/Delete*/}
-          {sessionUIDEqualsCOMENTUID ? (
+          {/* {sessionUIDEqualsCOMENTUID ? (
             <div
               className="group flex items-center space-x-1"
               onClick={() => {}}
@@ -144,7 +174,7 @@ const CommentCard = ({ commentData }) => {
                 <HiSwitchHorizontal className="h-5 group-hover:text-green-500" />
               </div>
             </div>
-          )}
+          )} */}
         </div>
       </div>
     </div>
