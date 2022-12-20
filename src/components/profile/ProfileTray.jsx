@@ -25,7 +25,7 @@ const ProfileCard = ({ user }) => {
         </div>
       </div>
       <div className="-mr-1 mt-3 space-x-2">
-        {requested ? (
+        {!requested ? (
           <button
             className="rounded-xl bg-accent p-1 text-sm"
             onClick={sendFriendRequest}

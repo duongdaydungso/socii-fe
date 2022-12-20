@@ -7,6 +7,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 import LoginDialog from "../../components/login/LoginDialog";
 import { ProfileTray } from "../../components/profile/ProfileTray";
+import { Link } from "react-router-dom";
 
 export default function IntroPage() {
   let [isOpenLoginModal, setIsOpenLoginModal] = useState(false);
@@ -72,9 +73,11 @@ export default function IntroPage() {
                 <FcGoogle className="h-6 w-6" />
                 <span>Sign up with google</span>
               </button> */}
-              <button className="btn-login-right w-[90%]">
-                Sign up with email
-              </button>
+              <Link to="/register" className="w-[90%]">
+                <button className="btn-login-right w-[90%]">
+                  Sign up with email
+                </button>
+              </Link>
             </div>
           </div>
         </div>
@@ -97,9 +100,11 @@ export default function IntroPage() {
           >
             Login
           </button>
-          <button className="h-[30px] w-[120px] rounded-full border bg-white font-bold text-black sm:w-[80px]">
-            Sign Up
-          </button>
+          <Link to="/register">
+            <button className="h-[30px] w-[120px] rounded-full border bg-white font-bold text-black sm:w-[80px]">
+              Sign Up
+            </button>
+          </Link>
         </div>
       </div>
       {/* Login Dialog */}

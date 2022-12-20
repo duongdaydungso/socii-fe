@@ -9,7 +9,7 @@ import { FaMoon } from "react-icons/fa";
 import { FiSettings } from "react-icons/fi";
 import { IoMdArrowBack } from "react-icons/io";
 
-const ThemeIcon = () => {
+export const ThemeIcon = () => {
   const [darkTheme, setDarkTheme] = useDarkMode();
   const handleMode = () => {
     setDarkTheme(!darkTheme);

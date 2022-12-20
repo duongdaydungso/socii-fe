@@ -58,7 +58,7 @@ const ProfilePage = () => {
       <div className="border-layout flex min-w-[380px] max-w-[600px] flex-1 shrink-0 flex-col border-x sm:min-w-[600px]">
         <Navbar pageName={user.name} showBackButton />
         <div className="border-layout flex flex-col border-b pb-3">
-          <div className="h-[200px] bg-black">
+          <div className="h-[200px] bg-inherit">
             <img src={user.wallpaper} alt="" />
           </div>
           <div className="ml-3 -mt-20 mr-4 flex ">
