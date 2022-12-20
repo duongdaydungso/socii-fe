@@ -54,7 +54,7 @@ const PostCard = ({ postData, canClick = false }) => {
       className="border-layout flex cursor-pointer border-b pt-4 pb-4 hover:bg-hoverLight dark:text-white dark:hover:bg-hoverDark"
       onClick={() => {
         if (canClick) {
-          navigate(pagePath.POST + "/" + post.author.id, {
+          navigate(pagePath.POST + "/" + post.id, {
             replace: true,
             state: { from: location },
           });
