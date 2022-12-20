@@ -1,17 +1,45 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
-const ProfileSearch = () => {
+import { useLocation, useNavigate } from "react-router";
+
+import { getUserDescriptionByID } from "../../services/publicServices";
+
+import { pagePath } from "../../utils/routeConstants";
+
+const ProfileSearch = ({ friendData }) => {
+  const [friendAvatar, setFriendAvatar] = useState();
+  const [friendDescription, setFriendDescription] = useState();
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    getUserDescriptionByID(friendData.id).then((res) => {
+      if (res.error === 0) {
+        setFriendAvatar(res.data.profile.avatar);
+        setFriendDescription(res.data.profile.description);
+      } else console.log(res.message);
+    });
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
   const user = {
-    name: "Elon Ma",
-    email: "elon@example.com",
-    avatar:
-      "https://images.unsplash.com/photo-1501196354995-cbb51c65aaea?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=4&w=256&h=256&q=80",
-    description:
-      "Tao ten la elon va tao ham mo anh 7, siuuuuuuuuuuudadsddadasd, 🇦🇷 🇦🇷 🇦🇷 🇦🇷 ",
+    id: friendData.id,
+    name: friendData.name,
+    email: friendData.email,
+    avatar: friendAvatar,
+    description: friendDescription,
   };
 
   return (
-    <div className="flex cursor-pointer items-center justify-between space-x-3 py-3 px-5 hover:bg-white dark:hover:bg-hoverDark">
+    <div
+      className="flex cursor-pointer items-center justify-between space-x-3 py-3 px-5 hover:bg-white dark:hover:bg-hoverDark"
+      onClick={() => {
+        navigate(pagePath.PROFILE + "/" + user.id, {
+          replace: true,
+          state: { from: location },
+        });
+      }}
+    >
       <div className="flex flex-row space-x-3">
         <div className="flex-shrink-0">
           <img src={user.avatar} alt="avatar" className="w-14 rounded-full" />
@@ -29,9 +57,6 @@ const ProfileSearch = () => {
           </p>
         </div>
       </div>
-      <button className="whitespace-nowrap rounded-xl bg-slate-100 p-1 text-sm text-dark hover:bg-slate-300">
-        Unfriend
-      </button>
     </div>
   );
 };
