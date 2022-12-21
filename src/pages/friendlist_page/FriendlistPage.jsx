@@ -24,6 +24,11 @@ export default function FriendlistPage() {
     fetchFriendList();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+  if (tmpUser.token === null)
+    return (
+      <div className="border-layout flex min-w-[380px] max-w-[600px] flex-1 shrink-0 flex-col border-x sm:min-w-[600px]"></div>
+    );
+
   return (
     <div className="flex flex-col">
       <Navbar pageName="Friends" showBackButton />

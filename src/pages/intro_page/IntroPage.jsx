@@ -25,12 +25,12 @@ export default function IntroPage() {
         {/*Left*/}
         <div className="sticky top-0 flex h-screen w-[70px] shrink-0 flex-col lg:w-[280px]">
           <div className="sticky top-0 flex flex-col items-center lg:items-start">
-            <div className="mt-5 h-12 w-12 lg:ml-[57px]">
+            <Link className="mt-5 h-12 w-12 lg:ml-[57px]" to="/">
               <img
                 alt="logo"
                 src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Android_O_Preview_Logo.png/900px-Android_O_Preview_Logo.png"
               />
-            </div>
+            </Link>
             <div className="mt-2 lg:ml-[50px]">
               <LeftButton Icon={FaHashtag} text="Explore" active />
             </div>

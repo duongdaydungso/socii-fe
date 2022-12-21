@@ -129,47 +129,49 @@ const CommentCard = ({ commentData, triggerFetch }) => {
           )}
         </div>
 
-        <div className="mt-1 -mb-3 flex justify-between pr-2">
-          {/* Like */}
-          <div className="group flex items-center space-x-1">
-            <div
-              className="post-icon group-hover:bg-pink-600/10"
-              onClick={(e) => {
-                e.stopPropagation();
-                handleLikeComment();
-              }}
-            >
-              {liked ? (
-                <BsFillHeartFill className="h-5 text-pink-600" />
-              ) : (
-                <BsHeart className="h-5 group-hover:text-pink-600" />
+        {tmpUser.token !== null && (
+          <div className="mt-1 -mb-3 flex justify-between pr-2">
+            {/* Like */}
+            <div className="group flex items-center space-x-1">
+              <div
+                className="post-icon group-hover:bg-pink-600/10"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleLikeComment();
+                }}
+              >
+                {liked ? (
+                  <BsFillHeartFill className="h-5 text-pink-600" />
+                ) : (
+                  <BsHeart className="h-5 group-hover:text-pink-600" />
+                )}
+              </div>
+              {comment.likes.length > 0 && (
+                <span
+                  className={` text-sm group-hover:text-pink-600 ${
+                    liked && "text-pink-600"
+                  }`}
+                >
+                  {comment.likes.length}
+                </span>
               )}
             </div>
-            {comment.likes.length > 0 && (
-              <span
-                className={` text-sm group-hover:text-pink-600 ${
-                  liked && "text-pink-600"
-                }`}
+            {/* Share/Delete*/}
+            {tmpUser.userID === comment.author.id && (
+              <div
+                className="group flex items-center space-x-1"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleDeleteComment();
+                }}
               >
-                {comment.likes.length}
-              </span>
+                <div className="post-icon group-hover:bg-red-600/10">
+                  <BsTrash className="h-5 group-hover:text-red-600" />
+                </div>
+              </div>
             )}
           </div>
-          {/* Share/Delete*/}
-          {tmpUser.userID === comment.author.id && (
-            <div
-              className="group flex items-center space-x-1"
-              onClick={(e) => {
-                e.stopPropagation();
-                handleDeleteComment();
-              }}
-            >
-              <div className="post-icon group-hover:bg-red-600/10">
-                <BsTrash className="h-5 group-hover:text-red-600" />
-              </div>
-            </div>
-          )}
-        </div>
+        )}
       </div>
     </div>
   );

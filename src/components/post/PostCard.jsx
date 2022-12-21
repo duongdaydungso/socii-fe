@@ -190,85 +190,87 @@ const PostCard = ({ postData, canClick = false, triggerFetch }) => {
             )}
           </div>
         )}
-        <div className="mt-1 -mb-3 flex justify-between pr-2">
-          {/* Comment */}
-          <div className="group flex items-center space-x-1 ">
-            <div
-              className="post-icon tooltip group-hover:bg-[#1d9bf0] group-hover:bg-opacity-10"
-              data-tip="Comment"
-            >
-              <BsChat className="h-5 group-hover:text-[#1d9bf0]" />
-            </div>
-            {post.commentCount > 0 && (
-              <span className="text-sm group-hover:text-[#1d9bf0]">
-                {post.commentCount}
-              </span>
-            )}
-          </div>
-          {/* Like */}
-          <div className="group flex items-center space-x-1">
-            <div
-              className="tooltip post-icon group-hover:bg-pink-600/10"
-              data-tip="Like"
-              onClick={(e) => {
-                e.stopPropagation();
-                handleLikePost();
-              }}
-            >
-              {liked ? (
-                <BsFillHeartFill className="h-5 text-pink-600" />
-              ) : (
-                <BsHeart className="h-5 group-hover:text-pink-600" />
+        {tmpUser.token !== null && (
+          <div className="mt-1 -mb-3 flex justify-between pr-2">
+            {/* Comment */}
+            <div className="group flex items-center space-x-1 ">
+              <div
+                className="post-icon tooltip group-hover:bg-[#1d9bf0] group-hover:bg-opacity-10"
+                data-tip="Comment"
+              >
+                <BsChat className="h-5 group-hover:text-[#1d9bf0]" />
+              </div>
+              {post.commentCount > 0 && (
+                <span className="text-sm group-hover:text-[#1d9bf0]">
+                  {post.commentCount}
+                </span>
               )}
             </div>
-            {post.likeCount > 0 && (
-              <span
-                className={` text-sm group-hover:text-pink-600 ${
-                  liked && "text-pink-600"
-                }`}
-              >
-                {post.likeCount}
-              </span>
-            )}
-          </div>
-          {/* Share */}
-          <div
-            className="post-icon tooltip group"
-            data-tip="Share"
-            onClick={(e) => {
-              e.stopPropagation();
-              openShareBoxModal();
-            }}
-          >
-            <BsShare className="h-5 group-hover:text-[#1d9bf0]" />
-          </div>
-          {/* ShareLink/Delete*/}
-          {sessionUIDEqualsPOSTUID ? (
-            isAccOwner && (
+            {/* Like */}
+            <div className="group flex items-center space-x-1">
               <div
-                className="tooltip group flex items-center space-x-1"
-                data-tip="Delete"
+                className="tooltip post-icon group-hover:bg-pink-600/10"
+                data-tip="Like"
                 onClick={(e) => {
                   e.stopPropagation();
-                  handleDeletePost();
+                  handleLikePost();
                 }}
               >
-                <div className="post-icon tooltip group-hover:bg-red-600/10">
-                  <BsTrash className="h-5 group-hover:text-red-600" />
+                {liked ? (
+                  <BsFillHeartFill className="h-5 text-pink-600" />
+                ) : (
+                  <BsHeart className="h-5 group-hover:text-pink-600" />
+                )}
+              </div>
+              {post.likeCount > 0 && (
+                <span
+                  className={` text-sm group-hover:text-pink-600 ${
+                    liked && "text-pink-600"
+                  }`}
+                >
+                  {post.likeCount}
+                </span>
+              )}
+            </div>
+            {/* Share */}
+            <div
+              className="post-icon tooltip group"
+              data-tip="Share"
+              onClick={(e) => {
+                e.stopPropagation();
+                openShareBoxModal();
+              }}
+            >
+              <BsShare className="h-5 group-hover:text-[#1d9bf0]" />
+            </div>
+            {/* ShareLink/Delete*/}
+            {sessionUIDEqualsPOSTUID ? (
+              isAccOwner && (
+                <div
+                  className="tooltip group flex items-center space-x-1"
+                  data-tip="Delete"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleDeletePost();
+                  }}
+                >
+                  <div className="post-icon tooltip group-hover:bg-red-600/10">
+                    <BsTrash className="h-5 group-hover:text-red-600" />
+                  </div>
+                </div>
+              )
+            ) : (
+              <div
+                className="tooltip group flex items-center space-x-1"
+                data-tip="Link"
+              >
+                <div className="post-icon group-hover:bg-green-500/10">
+                  <HiSwitchHorizontal className="h-5 group-hover:text-green-500" />
                 </div>
               </div>
-            )
-          ) : (
-            <div
-              className="tooltip group flex items-center space-x-1"
-              data-tip="Link"
-            >
-              <div className="post-icon group-hover:bg-green-500/10">
-                <HiSwitchHorizontal className="h-5 group-hover:text-green-500" />
-              </div>
-            </div>
-          )}
-        </div>
+            )}
+          </div>
+        )}
       </div>
       <Transition appear show={isOpenShareBox} as={Fragment}>
         <Dialog as="div" className="relative z-50" onClose={() => {}}>
