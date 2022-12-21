@@ -119,7 +119,7 @@ const ProfileEditing = ({ user, accessToken }) => {
           <div className="mb-6">
             <label className="mb-2 block text-sm font-medium">Name</label>
             <input
-              className="block w-full rounded-lg border p-2 outline-none"
+              className="block w-full rounded-lg border p-2 outline-none dark:bg-dark"
               value={name}
               onChange={(e) => {
                 setName(e.target.value);
@@ -129,7 +129,7 @@ const ProfileEditing = ({ user, accessToken }) => {
           <div className="mb-6">
             <label className="blocktext-sm mb-2 font-medium">Description</label>
             <input
-              className="block w-full rounded-lg border p-2 outline-none"
+              className="block w-full rounded-lg border p-2 outline-none dark:bg-dark"
               value={description}
               onChange={(e) => {
                 setDescription(e.target.value);

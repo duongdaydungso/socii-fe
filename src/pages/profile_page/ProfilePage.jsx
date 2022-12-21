@@ -173,7 +173,7 @@ const ProfilePage = () => {
   };
 
   return (
-    <div className="">
+    <div className="overflow-hidden">
       <div className="border-layout flex min-h-[120vh] min-w-[380px] max-w-[600px] flex-1 shrink-0 flex-col border-x dark:text-white sm:min-w-[600px]">
         <Navbar pageName={user.name} showBackButton />
         <div className="border-layout flex flex-col border-b pb-3">

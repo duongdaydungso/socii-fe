@@ -39,7 +39,7 @@ export default function NewsfeedPage() {
   }, [triggerFetch]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <div className="border-layout">
+    <div className="border-layout min-h-[120vh] overflow-hidden">
       <Navbar pageName="News Feed" />
       <PostInput />
       {newsfeedData.map((post) => (
