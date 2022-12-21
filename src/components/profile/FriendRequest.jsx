@@ -71,14 +71,17 @@ const FriendRequest = ({ userRequest, changer }) => {
   return (
     <div className="border-layout flex items-center justify-between border px-4 pb-4 hover:bg-slate-50 hover:dark:bg-[black]/30">
       <div className="flex items-center space-x-4">
-        <img
-          src={userReq.avatar}
-          alt="avatar"
-          className="mt-4 w-14 rounded-full"
-        />
+        <div className="flex-shrink-0">
+          <img
+            src={userReq.avatar}
+            alt="avatar"
+            className="mt-4 h-14 w-14 rounded-full object-cover"
+          />
+        </div>
+
         <div className="flex flex-col">
           <span
-            className="text-[17px] font-[800] hover:cursor-pointer hover:underline dark:text-white"
+            className="text-[15px] font-[800] line-clamp-1 hover:cursor-pointer hover:underline dark:text-white"
             onClick={() => {
               navigate(pagePath.PROFILE + "/" + userReq.id, {
                 replace: true,
@@ -88,12 +91,12 @@ const FriendRequest = ({ userRequest, changer }) => {
           >
             {userReq.name}
           </span>
-          <p className="text-xs text-[black]/50 dark:text-[white]/50">
+          <p className="w-[75%] text-[10px] text-[black]/50 line-clamp-2 dark:text-[white]/50">
             {userReq.description}
           </p>
         </div>
       </div>
-      <div className="-mr-1 mt-3 grid justify-items-end space-x-2 space-y-1">
+      <div className="mt-3 grid justify-items-end space-x-2 space-y-1">
         <button
           className="w-16 rounded-xl bg-accent p-1 text-sm hover:scale-105"
           onClick={() => handleAcceptFriendRequest()}

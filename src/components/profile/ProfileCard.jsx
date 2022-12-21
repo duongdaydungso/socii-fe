@@ -62,7 +62,7 @@ const ProfileCard = ({ userID, triggerFetch }) => {
 
         <div className="tooltip mt-2 flex w-28 flex-col" data-tip={userName}>
           <span
-            className="max-w-sm truncate text-[14px] font-[800] hover:cursor-pointer hover:underline dark:text-white"
+            className="max-w-sm truncate text-[15px] font-[800] hover:cursor-pointer hover:underline dark:text-white"
             onClick={() => {
               navigate(pagePath.PROFILE + "/" + userID, {
                 replace: true,
@@ -72,7 +72,7 @@ const ProfileCard = ({ userID, triggerFetch }) => {
           >
             {userName}
           </span>
-          <p className="max-w-sm text-[11px]  text-[black]/50 dark:text-[white]/50">
+          <p className="max-w-sm text-[11px] text-[black]/50 line-clamp-2 dark:text-[white]/50">
             {userDescription}
           </p>
         </div>
