@@ -34,3 +34,7 @@ export const getPostByID = (ID) => {
     postId: ID,
   });
 };
+
+export const getTopUser = () => {
+  return axios.get("/api/user/getTopUser");
+};

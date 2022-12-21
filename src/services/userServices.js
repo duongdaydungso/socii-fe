@@ -239,3 +239,27 @@ export const createComment = (token, content, postID, file) => {
 
   return axios.post(`/api/post/addCommentToPost`, formData, config);
 };
+
+export const getRandomUserNotFriend = (token) => {
+  return axios({
+    method: "get",
+    url: `/api/user/getRandomUserNotFriend`,
+    headers: {
+      Authorization: token,
+    },
+  });
+};
+
+export const sharePost = (token, content, postID) => {
+  return axios({
+    method: "post",
+    url: `/api/post/sharePost`,
+    headers: {
+      Authorization: token,
+    },
+    data: {
+      content: content,
+      postId: postID,
+    },
+  });
+};

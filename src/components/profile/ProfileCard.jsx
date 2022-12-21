@@ -77,14 +77,16 @@ const ProfileCard = ({ userID, triggerFetch }) => {
           </p>
         </div>
       </div>
-      <div className="-mr-1 mt-3 space-x-2">
-        <button
-          className="whitespace-nowrap rounded-xl bg-accent p-1 text-sm hover:bg-accentLight"
-          onClick={() => addFriend()}
-        >
-          Add Friend
-        </button>
-      </div>
+      {tmpAuth.token !== null && (
+        <div className="-mr-1 mt-3 space-x-2">
+          <button
+            className="whitespace-nowrap rounded-xl bg-accent p-1 text-sm hover:bg-accentLight"
+            onClick={() => addFriend()}
+          >
+            Add Friend
+          </button>
+        </div>
+      )}
     </div>
   );
 };

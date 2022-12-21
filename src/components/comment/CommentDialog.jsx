@@ -68,14 +68,25 @@ const CommentDialog = ({ postID }) => {
   const addImageToPost = (e) => {
     const reader = new FileReader();
 
-    if (e.target.files[0]) {
+    if (
+      e.target.files[0] &&
+      (e.target.files[0].type.split("/")[0] === "video" ||
+        e.target.files[0].type.split("/")[0] === "image")
+    ) {
       reader.readAsDataURL(e.target.files[0]);
       setFileInput(e.target.files[0]);
-    }
 
-    reader.onload = (readerEvent) => {
-      setSelectedFile(readerEvent.target.result);
-    };
+      reader.onload = (readerEvent) => {
+        setSelectedFile(readerEvent.target.result);
+      };
+    } else {
+      swal({
+        icon: "error",
+        text: "Invalid input file type!",
+        button: false,
+        timer: 2000,
+      });
+    }
   };
 
   const addEmoji = (e) => {

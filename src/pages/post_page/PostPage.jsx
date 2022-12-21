@@ -51,6 +51,9 @@ const PostPage = () => {
       <Navbar pageName="Thread" showBackButton />
       <PostCard postData={postData} triggerFetch={doTriggerFetch} />
       {tmpAuth.token && <CommentDialog postID={postData.id} />}
+      <div className="border-layout ml-6 mt-4 mb-4 text-2xl font-bold text-[#282A3A] dark:text-accent">
+        Comments
+      </div>
       {postData.comments.map((cmt) => (
         <CommentCard
           commentData={cmt}

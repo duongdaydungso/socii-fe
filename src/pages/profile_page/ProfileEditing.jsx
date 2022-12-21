@@ -51,27 +51,49 @@ const ProfileEditing = ({ user, accessToken }) => {
   const handleChangeAvatar = (e) => {
     const reader = new FileReader();
 
-    if (e.target.files[0]) {
+    if (
+      e.target.files[0] &&
+      (e.target.files[0].type.split("/")[0] === "video" ||
+        e.target.files[0].type.split("/")[0] === "image")
+    ) {
       reader.readAsDataURL(e.target.files[0]);
       setInputAvatar(e.target.files[0]);
-    }
 
-    reader.onload = (readerEvent) => {
-      setAvatar(readerEvent.target.result);
-    };
+      reader.onload = (readerEvent) => {
+        setAvatar(readerEvent.target.result);
+      };
+    } else {
+      swal({
+        icon: "error",
+        text: "Invalid input file type!",
+        button: false,
+        timer: 2000,
+      });
+    }
   };
 
   const handleChangeWallpaper = (e) => {
     const reader = new FileReader();
 
-    if (e.target.files[0]) {
+    if (
+      e.target.files[0] &&
+      (e.target.files[0].type.split("/")[0] === "video" ||
+        e.target.files[0].type.split("/")[0] === "image")
+    ) {
       reader.readAsDataURL(e.target.files[0]);
       setInputWallpaper(e.target.files[0]);
-    }
 
-    reader.onload = (readerEvent) => {
-      setWallpaper(readerEvent.target.result);
-    };
+      reader.onload = (readerEvent) => {
+        setWallpaper(readerEvent.target.result);
+      };
+    } else {
+      swal({
+        icon: "error",
+        text: "Invalid input file type!",
+        button: false,
+        timer: 2000,
+      });
+    }
   };
 
   return (

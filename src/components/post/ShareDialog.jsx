@@ -1,22 +1,36 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TextareaAutosize from "react-textarea-autosize";
 import { BsEmojiSmile } from "react-icons/bs";
 import Picker from "@emoji-mart/react";
 
-const ShareDialog = () => {
+import { useNavigate } from "react-router";
+import swal from "sweetalert";
+
+import { getUserDescriptionByID } from "../../services/publicServices";
+
+import { selectAuth } from "../../redux/auth/authSlice";
+import { useSelector } from "react-redux";
+import PostCard from "./PostCard";
+
+import { sharePost } from "../../services/userServices";
+
+const ShareDialog = ({ postData }) => {
+  const tmpAuth = useSelector(selectAuth);
+  const navigate = useNavigate();
+
   const [input, setInput] = useState("");
-
   const [showEmojis, setShowEmojis] = useState(false);
+  const [avatar, setAvatar] = useState("");
 
-  const sendShare = () => {
-    console.log("send");
+  const fetchUserData = () => {
+    getUserDescriptionByID(tmpAuth.userID).then((res) => {
+      if (res.error === 0) {
+        setAvatar(res.data.profile.avatar);
+      } else console.log(res.message);
+    });
   };
 
-  const user = {
-    name: "Elon Ma",
-    avatar:
-      "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=4&w=256&h=256&q=80",
-  };
+  useEffect(() => fetchUserData(), []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const addEmoji = (e) => {
     let sym = e.unified.split("-");
@@ -26,10 +40,29 @@ const ShareDialog = () => {
     setInput(input + emoji);
   };
 
+  const sendShare = () => {
+    sharePost(tmpAuth.token, input, postData.id).then((res) => {
+      if (res.error === 0) {
+        swal({
+          icon: "success",
+          text: res.message,
+          button: false,
+          timer: 2000,
+        });
+
+        navigate(0);
+      } else console.log(res.message);
+    });
+  };
+
+  const user = {
+    avatar: avatar,
+  };
+
   return (
     <div className="border-layout mr-3 flex space-x-5 border-b py-5 dark:bg-dark dark:text-white">
       <img
-        className="ml-6 flex h-14 cursor-pointer rounded-full"
+        className="ml-6 flex h-14 w-14 cursor-pointer rounded-full object-cover"
         src={user.avatar}
         alt="prof"
       />
@@ -58,7 +91,9 @@ const ShareDialog = () => {
           )}
         </div>
 
-        <div className="w-[85%] bg-red-200">PUT THAT POST HERE</div>
+        <div className="w-[85%] bg-red-200">
+          <PostCard postData={postData} enableMethod={false} />
+        </div>
         <div>
           <button
             disabled={!input}

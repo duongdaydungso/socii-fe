@@ -5,6 +5,9 @@ import { selectAuth } from "../../redux/auth/authSlice";
 
 import ProfileCard from "./ProfileCard";
 
+import { getRandomUserNotFriend } from "../../services/userServices";
+import { getTopUser } from "../../services/publicServices";
+
 const ProfileTray = () => {
   const tmpAuth = useSelector(selectAuth);
 
@@ -12,7 +15,19 @@ const ProfileTray = () => {
   const [users, setUsers] = useState([]);
 
   const fetchUserList = () => {
-    setUsers([{ id: 1 }, { id: 2 }]);
+    if (tmpAuth.token !== null) {
+      getRandomUserNotFriend(tmpAuth.token).then((res) => {
+        if (res.error === 0) {
+          setUsers(res.data);
+        } else console.log(res.message);
+      });
+    } else {
+      getTopUser().then((res) => {
+        if (res.error === 0) {
+          setUsers(res.data);
+        } else console.log(res.message);
+      });
+    }
   };
 
   useEffect(() => fetchUserList(), []); // eslint-disable-line react-hooks/exhaustive-deps

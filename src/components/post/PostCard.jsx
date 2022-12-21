@@ -27,7 +27,12 @@ import { Dialog, Transition } from "@headlessui/react";
 import useClickOutside from "../../hooks/useClickOutside";
 import ShareDialog from "./ShareDialog";
 
-const PostCard = ({ postData, canClick = false, triggerFetch }) => {
+const PostCard = ({
+  postData,
+  canClick = false,
+  triggerFetch,
+  enableMethod = true,
+}) => {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -58,7 +63,7 @@ const PostCard = ({ postData, canClick = false, triggerFetch }) => {
       avatar: authorAvatar,
       id: postData.authorId,
     },
-
+    sharedFrom: postData.sharedFrom ? postData.sharedFrom : null,
     content: postData.content,
     file:
       postData.attachments !== "http://localhost:8080null"
@@ -66,9 +71,9 @@ const PostCard = ({ postData, canClick = false, triggerFetch }) => {
         : null,
     timestamp: getTimestamp(postData.updatedAt),
 
-    commentCount: postData._count.comments,
-    likeCount: postData._count.likes,
-    shareCount: postData._count.listShare,
+    commentCount: postData._count ? postData._count.comments : 0,
+    likeCount: postData._count ? postData._count.likes : 0,
+    shareCount: postData._count ? postData._count.listShare : 0,
   };
 
   const tmpUser = useSelector(selectAuth);
@@ -175,6 +180,24 @@ const PostCard = ({ postData, canClick = false, triggerFetch }) => {
           </div>
         </div>
         <p className="">{post.content}</p>
+        {post.sharedFrom !== null && (
+          <div
+            className="bg-red-200"
+            onClick={(e) => {
+              navigate(pagePath.POST + "/" + post.sharedFrom.id, {
+                replace: true,
+                state: { from: location },
+              });
+              e.stopPropagation();
+            }}
+          >
+            <PostCard
+              postData={post.sharedFrom}
+              enableMethod={false}
+              canClick
+            />
+          </div>
+        )}
         {post.file && (
           <div className="mt-2 mr-2">
             {String(post.file).includes("/video/") ? (
@@ -193,7 +216,7 @@ const PostCard = ({ postData, canClick = false, triggerFetch }) => {
             )}
           </div>
         )}
-        {tmpUser.token !== null && (
+        {tmpUser.token !== null && enableMethod && (
           <div className="mt-1 -mb-3 flex justify-between pr-2">
             {/* Comment */}
             <div className="group flex items-center space-x-1 ">
@@ -305,7 +328,7 @@ const PostCard = ({ postData, canClick = false, triggerFetch }) => {
                   className="flex w-full max-w-[600px] transform flex-col rounded-2xl bg-slate-100 p-6 text-left align-middle shadow-xl transition-all dark:bg-dark"
                 >
                   <div className="mt-2">
-                    <ShareDialog />
+                    <ShareDialog postData={postData} />
                   </div>
 
                   <div className="mt-auto">
