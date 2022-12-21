@@ -94,11 +94,14 @@ const PostInput = () => {
 
   return (
     <div className="border-layout mr-3 flex flex-1 space-x-5 border-b bg-slate-100 dark:bg-dark dark:text-white">
-      <img
-        className="ml-6 flex h-14 w-14 cursor-pointer rounded-full object-cover"
-        src={user.avatar}
-        alt="prof"
-      />
+      <div className="flex-shrink-0">
+        <img
+          className="ml-5 flex h-14 w-14 cursor-pointer rounded-full"
+          src={user.avatar}
+          alt="prof"
+        />
+      </div>
+
       <div className="flex w-[80%] flex-col">
         <TextareaAutosize
           minRows={2}

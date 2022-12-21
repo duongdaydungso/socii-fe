@@ -100,20 +100,23 @@ const LeftBar = () => {
             </button>
           </div>
         </div>
-        <div className="hoverAnimation mt-auto mb-5 flex items-center space-x-1 p-2 ">
-          <Link to={pagePath.PROFILE + "/" + user.id} className="h-14 w-14 ">
+        <div className="hoverAnimation mt-auto mb-5 flex w-full items-center justify-center space-x-1 p-2 ">
+          <Link
+            to={pagePath.PROFILE + "/" + user.id}
+            className="h-14 w-14 flex-shrink-0"
+          >
             <img
               src={user.avatar}
-              className="h-14 w-14 rounded-full object-cover"
+              className="h-14 w-14 rounded-full"
               alt="profile"
             />
           </Link>
 
-          <span className="hidden px-2 font-semibold dark:text-white lg:inline">
+          <p className="hidden w-full truncate px-2 font-semibold dark:text-white lg:inline">
             {user.name}
             <br />
             <span className="text-sm opacity-60">{user.email}</span>
-          </span>
+          </p>
           <div className="tooltip group hidden lg:inline" data-tip="Log Out">
             <BiLogOut
               className="ml-2 h-6 w-6 group-hover:text-[#1d9bf0]"
