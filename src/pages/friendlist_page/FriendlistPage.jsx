@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 export default function FriendlistPage() {
   const tmpUser = useSelector(selectAuth);
 
+  const [isFriendList, setIsFriendList] = useState(true);
   const [friendlistData, setFriendlistData] = useState([]);
 
   const fetchFriendList = () => {
@@ -32,6 +33,7 @@ export default function FriendlistPage() {
   return (
     <div className="flex flex-col">
       <Navbar pageName="Friends" showBackButton />
+      <div>{isFriendList ? "true" : "false"}</div>
       <div className="border-layout flex flex-col border-t">
         {friendlistData.map((friend, index) => (
           <ProfileSearch key={index} friendData={friend} />

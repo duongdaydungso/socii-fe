@@ -20,6 +20,16 @@ export const getUserFriendRequest = (token) => {
   });
 };
 
+export const getFriendRequestSent = (token) => {
+  return axios({
+    method: "get",
+    url: `/api/user/getFriendRequestSent`,
+    headers: {
+      Authorization: token,
+    },
+  });
+};
+
 export const sendFriendRequest = (token, friendID) => {
   return axios({
     method: "post",
