@@ -6,6 +6,7 @@ import { selectAuth } from "../../redux/auth/authSlice";
 
 import { getDataUserByID } from "../../services/publicServices";
 import { useEffect, useState } from "react";
+import { NavLink } from "react-router-dom";
 
 export default function FriendlistPage() {
   const tmpUser = useSelector(selectAuth);
@@ -33,7 +34,12 @@ export default function FriendlistPage() {
   return (
     <div className="flex flex-col">
       <Navbar pageName="Friends" showBackButton />
-      <div>{isFriendList ? "true" : "false"}</div>
+      <div className="border-layout sticky top-[4.5rem] flex h-12 items-center justify-center border-t">
+        <button className="filterButton">New Requests</button>
+
+        <button className="filterButton">All Friends</button>
+      </div>
+
       <div className="border-layout flex flex-col border-t">
         {friendlistData.map((friend, index) => (
           <ProfileSearch key={index} friendData={friend} />

@@ -62,4 +62,8 @@ body {
   .mid-content {
     @apply border-layout mr-2 flex h-full max-w-[780px] flex-col border-r dark:bg-dark;
   }
+
+  .filterButton {
+    @apply border-layout h-full w-[120px] rounded-md border-x border-b-4 px-2 py-1 focus:border-b-accent;
+  }
 }
