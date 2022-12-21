@@ -107,7 +107,7 @@ const LeftBar = () => {
           >
             <img
               src={user.avatar}
-              className="h-14 w-14 rounded-full"
+              className="h-14 w-14 rounded-full object-cover"
               alt="profile"
             />
           </Link>

@@ -56,7 +56,7 @@ const ProfileCard = ({ userID, triggerFetch }) => {
           <img
             src={userAvatar}
             alt="avatar"
-            className="mt-4 h-14 w-14 rounded-full"
+            className="mt-4 h-14 w-14 rounded-full object-cover"
           />
         </div>
 

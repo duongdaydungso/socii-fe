@@ -145,7 +145,7 @@ const PostCard = ({ postData, canClick = false, triggerFetch }) => {
     >
       <div className="flex-shrink-0">
         <img
-          className="ml-5 mr-4 h-14 w-14 cursor-pointer rounded-full"
+          className="ml-5 mr-4 h-14 w-14 cursor-pointer rounded-full object-cover"
           src={post.author.avatar}
           alt="prof"
         />
