@@ -6,7 +6,7 @@ import useDarkMode from "../../hooks/useDarkMode";
 
 import { FaSun } from "react-icons/fa";
 import { FaMoon } from "react-icons/fa";
-// import { FiSettings } from "react-icons/fi";
+import { FiSettings } from "react-icons/fi";
 import { IoMdArrowBack } from "react-icons/io";
 
 export const ThemeIcon = () => {
@@ -51,7 +51,7 @@ const Navbar = ({ pageName, showBackButton }) => {
 
       <div className="flex items-center space-x-4">
         <ThemeIcon />
-        {/* <FiSettings className="btn-top duration-400 mt-[1px]" /> */}
+        <FiSettings className="btn-top duration-400 mt-[1px]" />
       </div>
     </div>
   );

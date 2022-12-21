@@ -192,3 +192,40 @@ export const deleteComment = (token, commentID) => {
     },
   });
 };
+
+export const editProfile = (token, name, description, avatar, wallpaper) => {
+  let formData = new FormData();
+
+  formData.append("type", "profile");
+  formData.append("name", name);
+  formData.append("description", description);
+  formData.append("avatar", avatar);
+  formData.append("wallpaper", wallpaper);
+
+  const config = {
+    headers: {
+      Authorization: token,
+      "Content-Type": "multipart/form-data",
+    },
+  };
+
+  return axios.post(`/api/user/editProfile`, formData, config);
+};
+
+export const createComment = (token, content, postID, file) => {
+  let formData = new FormData();
+
+  formData.append("content", content);
+  formData.append("postId", postID);
+  formData.append("type", "post");
+  formData.append("file", file);
+
+  const config = {
+    headers: {
+      Authorization: token,
+      "Content-Type": "multipart/form-data",
+    },
+  };
+
+  return axios.post(`/api/post/addCommentToPost`, formData, config);
+};

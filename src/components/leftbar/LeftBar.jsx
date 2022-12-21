@@ -1,4 +1,4 @@
-import React, { Fragment, useRef, useState } from "react";
+import React, { Fragment, useEffect, useRef, useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 
@@ -13,6 +13,8 @@ import { BiLogOut } from "react-icons/bi";
 import LeftButton from "../buttons/LeftButton";
 import PostInput from "../post/PostInput";
 
+import { getUserDescriptionByID } from "../../services/publicServices";
+
 import useClickOutside from "../../hooks/useClickOutside";
 import { clearToken, selectAuth } from "../../redux/auth/authSlice";
 import { pagePath } from "../../utils/routeConstants";
@@ -24,11 +26,27 @@ const LeftBar = () => {
   const dispatch = useDispatch();
   const userData = useSelector(selectAuth);
 
+  const [name, setName] = useState("");
+  const [avatar, setAvatar] = useState("");
+  const [email, setEmail] = useState("");
+
+  const fetchData = () => {
+    getUserDescriptionByID(userData.userID).then((res) => {
+      if (res.error === 0) {
+        setName(res.data.name);
+        setEmail(res.data.email);
+        setAvatar(res.data.profile.avatar);
+      } else console.log(res.message);
+    });
+  };
+
+  useEffect(() => fetchData(), []); // eslint-disable-line react-hooks/exhaustive-deps
+
   const user = {
-    name: userData.userName,
-    avatar: userData.userAvatar,
-    email: userData.userEmail,
     id: userData.userID,
+    name: name,
+    avatar: avatar,
+    email: email,
   };
 
   function closePostBoxModal() {
@@ -84,7 +102,11 @@ const LeftBar = () => {
         </div>
         <div className="hoverAnimation mt-auto mb-5 flex items-center space-x-1 p-2 ">
           <Link to={pagePath.PROFILE + "/" + user.id} className="h-14 w-14 ">
-            <img src={user.avatar} className="rounded-full" alt="profile" />
+            <img
+              src={user.avatar}
+              className="h-14 w-14 rounded-full object-cover"
+              alt="profile"
+            />
           </Link>
 
           <span className="hidden px-2 font-semibold dark:text-white lg:inline">

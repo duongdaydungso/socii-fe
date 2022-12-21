@@ -42,7 +42,11 @@ const ProfileSearch = ({ friendData }) => {
     >
       <div className="flex flex-row space-x-3">
         <div className="flex-shrink-0">
-          <img src={user.avatar} alt="avatar" className="w-14 rounded-full" />
+          <img
+            src={user.avatar}
+            alt="avatar"
+            className="h-14 w-14 rounded-full object-cover"
+          />
         </div>
         <div className="flex flex-col">
           <div className="flex items-center space-x-2">

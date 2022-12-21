@@ -29,11 +29,16 @@ const authSlice = createSlice({
       state.userName = null;
       state.userAvatar = null;
     },
+    editProfileReducer: (state, action) => {
+      state.userName = action.payload.userName;
+      state.userAvatar = action.payload.userAvatar;
+    },
   },
 });
 
 export const selectAuth = (state) => state.auth;
 
-export const { assignToken, clearToken } = authSlice.actions;
+export const { assignToken, clearToken, editProfileReducer } =
+  authSlice.actions;
 
 export default authSlice.reducer;

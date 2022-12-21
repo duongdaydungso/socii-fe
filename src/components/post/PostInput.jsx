@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState, useRef } from "react";
 
 import { useNavigate } from "react-router";
@@ -17,6 +17,8 @@ import Picker from "@emoji-mart/react";
 
 import { createPost } from "../../services/userServices";
 
+import { getUserDescriptionByID } from "../../services/publicServices";
+
 const PostInput = () => {
   const navigate = useNavigate();
   const [input, setInput] = useState("");
@@ -31,10 +33,26 @@ const PostInput = () => {
 
   const userData = useSelector(selectAuth);
 
+  const [userAvatar, setUserAvatar] = useState("");
+  const [userName, setUserName] = useState("");
+  const [userEmail, setUserEmail] = useState("");
+
+  const fetchData = () => {
+    getUserDescriptionByID(userData.userID).then((res) => {
+      if (res.error === 0) {
+        setUserAvatar(res.data.profile.avatar);
+        setUserName(res.data.name);
+        setUserEmail(res.data.email);
+      } else console.log(res.message);
+    });
+  };
+
+  useEffect(() => fetchData(), []); // eslint-disable-line react-hooks/exhaustive-deps
+
   const user = {
-    name: userData.userName,
-    avatar: userData.userAvatar,
-    email: userData.userEmail,
+    name: userName,
+    avatar: userAvatar,
+    email: userEmail,
     id: userData.userID,
   };
 
@@ -77,7 +95,7 @@ const PostInput = () => {
   return (
     <div className="border-layout mr-3 flex flex-1 space-x-5 border-b bg-slate-100 dark:bg-dark dark:text-white">
       <img
-        className="ml-6 flex h-14 cursor-pointer rounded-full"
+        className="ml-6 flex h-14 w-14 cursor-pointer rounded-full object-cover"
         src={user.avatar}
         alt="prof"
       />

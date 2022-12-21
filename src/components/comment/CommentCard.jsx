@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, Fragment } from "react";
+
+import { Dialog, Transition } from "@headlessui/react";
 
 import { useSelector } from "react-redux";
 import { selectAuth } from "../../redux/auth/authSlice";
@@ -17,6 +19,8 @@ import {
 import { BsTrash, BsFillHeartFill, BsHeart } from "react-icons/bs";
 import { HiDotsHorizontal } from "react-icons/hi";
 
+import useClickOutside from "../../hooks/useClickOutside";
+
 import { getTimestamp } from "../../utils/getTimestamp";
 import { pagePath } from "../../utils/routeConstants";
 
@@ -24,11 +28,14 @@ const CommentCard = ({ commentData, triggerFetch }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const imageRef = useRef(null);
+
   const tmpUser = useSelector(selectAuth);
 
   const [authorAvatar, setAuthorAvatar] = useState("");
   const [authorName, setAuthorName] = useState("");
   const [liked, setLiked] = useState();
+  const [isOpenImage, setIsOpenImage] = useState(false);
 
   useEffect(() => {
     getUserDescriptionByID(commentData.authorId).then((value) => {
@@ -47,8 +54,10 @@ const CommentCard = ({ commentData, triggerFetch }) => {
       avatar: authorAvatar,
       id: commentData.authorId,
     },
-    image: [],
-
+    file:
+      commentData.attachments !== "http://localhost:8080null"
+        ? commentData.attachments
+        : null,
     content: commentData.content,
     timestamp: getTimestamp(commentData.updatedAt),
 
@@ -92,10 +101,20 @@ const CommentCard = ({ commentData, triggerFetch }) => {
     });
   };
 
+  function closeImage() {
+    setIsOpenImage(false);
+  }
+
+  function openImage() {
+    setIsOpenImage(true);
+  }
+
+  useClickOutside(imageRef, () => closeImage());
+
   return (
     <div className="border-layout flex cursor-pointer border-b pt-4 pb-4 hover:bg-hoverLight dark:text-white dark:hover:bg-hoverDark">
       <img
-        className="ml-5 mr-4 h-14 cursor-pointer rounded-full"
+        className="ml-5 mr-4 h-14 w-14 cursor-pointer rounded-full object-cover"
         src={comment.author.avatar}
         alt="prof"
       />
@@ -123,11 +142,24 @@ const CommentCard = ({ commentData, triggerFetch }) => {
 
         <p className="">{comment.content}</p>
 
-        <div className="mt-2 mr-2">
-          {comment.image.length > 0 && (
-            <img className="rounded-2xl" src={comment?.image} alt="comment" />
-          )}
-        </div>
+        {comment.file && (
+          <div className="mt-2 mr-2">
+            {String(comment.file).includes("/video/") ? (
+              <video controls>
+                <source src={comment?.file} />
+              </video>
+            ) : (
+              <img
+                src={comment?.file}
+                alt=""
+                onClick={(e) => {
+                  e.stopPropagation();
+                  openImage();
+                }}
+              />
+            )}
+          </div>
+        )}
 
         {tmpUser.token !== null && (
           <div className="mt-1 -mb-3 flex justify-between pr-2">
@@ -173,6 +205,61 @@ const CommentCard = ({ commentData, triggerFetch }) => {
           </div>
         )}
       </div>
+
+      {comment.file && !String(comment.file).includes("/video/") && (
+        <Transition appear show={isOpenImage} as={Fragment}>
+          <Dialog as="div" className="relative z-50" onClose={() => {}}>
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0"
+              enterTo="opacity-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
+            >
+              <div className="fixed inset-0 bg-black bg-opacity-25" />
+            </Transition.Child>
+
+            <div className="fixed inset-0 overflow-y-auto">
+              <div className="flex min-h-full items-center justify-center p-4 text-center">
+                <Transition.Child
+                  as={Fragment}
+                  enter="ease-out duration-300"
+                  enterFrom="opacity-0 scale-95"
+                  enterTo="opacity-100 scale-100"
+                  leave="ease-in duration-200"
+                  leaveFrom="opacity-100 scale-100"
+                  leaveTo="opacity-0 scale-95"
+                >
+                  <Dialog.Panel
+                    ref={imageRef}
+                    className="flex w-full max-w-[600px] transform flex-col rounded-2xl bg-slate-100 p-6 text-left align-middle shadow-xl transition-all dark:bg-dark"
+                  >
+                    <div className="mt-2">
+                      <img
+                        src={comment?.file}
+                        alt=""
+                        className="h-full w-full"
+                      />
+                    </div>
+
+                    <div className="mt-auto">
+                      <button
+                        type="button"
+                        className="mt-2 inline-flex justify-center rounded-md border border-transparent bg-hoverLight px-4 py-2 dark:bg-hoverDark dark:text-white"
+                        onClick={closeImage}
+                      >
+                        Close
+                      </button>
+                    </div>
+                  </Dialog.Panel>
+                </Transition.Child>
+              </div>
+            </div>
+          </Dialog>
+        </Transition>
+      )}
     </div>
   );
 };

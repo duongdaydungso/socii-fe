@@ -50,7 +50,7 @@ const PostPage = () => {
     <div className="border-layout flex min-w-[380px] max-w-[600px] flex-1 shrink-0 flex-col border-x sm:min-w-[600px]">
       <Navbar pageName="Thread" showBackButton />
       <PostCard postData={postData} triggerFetch={doTriggerFetch} />
-      {tmpAuth.token && <CommentDialog />}
+      {tmpAuth.token && <CommentDialog postID={postData.id} />}
       {postData.comments.map((cmt) => (
         <CommentCard
           commentData={cmt}

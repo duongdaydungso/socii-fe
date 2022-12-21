@@ -1,37 +1,76 @@
 import { useSelector } from "react-redux";
 import { selectAuth } from "../../redux/auth/authSlice";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
+
+import { useNavigate } from "react-router";
+
+import swal from "sweetalert";
+
+import { createComment } from "../../services/userServices";
+import { getUserDescriptionByID } from "../../services/publicServices";
 
 import TextareaAutosize from "react-textarea-autosize";
 import { BsEmojiSmile, BsImage } from "react-icons/bs";
 import { IoIosClose } from "react-icons/io";
 import Picker from "@emoji-mart/react";
 
-const CommentDialog = () => {
+const CommentDialog = ({ postID }) => {
+  const navigate = useNavigate();
   const [input, setInput] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
+  const [fileInput, setFileInput] = useState(null);
+
   const filePickerRef = useRef(null);
 
   const [showEmojis, setShowEmojis] = useState(false);
 
   const userData = useSelector(selectAuth);
 
+  const [userAvatar, setUserAvatar] = useState("");
+  const [userName, setUserName] = useState("");
+  const [userEmail, setUserEmail] = useState("");
+
+  const fetchData = () => {
+    getUserDescriptionByID(userData.userID).then((res) => {
+      if (res.error === 0) {
+        setUserAvatar(res.data.profile.avatar);
+        setUserName(res.data.name);
+        setUserEmail(res.data.email);
+      } else console.log(res.message);
+    });
+  };
+
+  useEffect(() => fetchData(), []); // eslint-disable-line react-hooks/exhaustive-deps
+
   const user = {
-    name: userData.userName,
-    avatar: userData.userAvatar,
-    email: userData.userEmail,
+    name: userName,
+    avatar: userAvatar,
+    email: userEmail,
     id: userData.userID,
   };
 
-  const sendPost = () => {
-    console.log("send");
+  const sendComment = () => {
+    createComment(userData.token, input, postID, fileInput).then((res) => {
+      if (res.error === 0) {
+        swal({
+          icon: "success",
+          text: res.message,
+          button: false,
+          timer: 2000,
+        });
+
+        navigate(0);
+      } else console.log(res);
+    });
   };
 
   const addImageToPost = (e) => {
     const reader = new FileReader();
+
     if (e.target.files[0]) {
       reader.readAsDataURL(e.target.files[0]);
+      setFileInput(e.target.files[0]);
     }
 
     reader.onload = (readerEvent) => {
@@ -50,7 +89,7 @@ const CommentDialog = () => {
   return (
     <div className="border-layout mr-3 flex space-x-5 border-b py-5 dark:bg-dark dark:text-white">
       <img
-        className="ml-6 flex h-14 cursor-pointer rounded-full"
+        className="ml-6 flex h-14 w-14 cursor-pointer rounded-full object-cover"
         src={user.avatar}
         alt="prof"
       />
@@ -65,15 +104,24 @@ const CommentDialog = () => {
         />
 
         {selectedFile && (
-          <div className="relative">
+          <div className="flex">
+            <div className="flex max-w-[90%] flex-1">
+              {fileInput.type.split("/")[0] === "video" ? (
+                <video controls>
+                  <source src={selectedFile} />
+                </video>
+              ) : (
+                <img src={selectedFile} alt="" />
+              )}
+            </div>
             <div
-              className="absolute top-1 left-1 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-[#15181c] bg-opacity-75 hover:bg-[#272c26]"
-              onClick={() => setSelectedFile(null)}
+              className="top-1 right-1 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-[#15181c] bg-opacity-75 hover:bg-[#272c26]"
+              onClick={() => {
+                setSelectedFile(null);
+                setFileInput(null);
+              }}
             >
               <IoIosClose className="h-5 text-white" />
-            </div>
-            <div className="flex max-w-[90%] flex-1">
-              <img src={selectedFile} alt="" className=" rounded-2xl" />
             </div>
           </div>
         )}
@@ -115,7 +163,7 @@ const CommentDialog = () => {
           </div>
           <button
             disabled={!input && !selectedFile}
-            onClick={sendPost}
+            onClick={sendComment}
             className="post-btn-transition mt-4 mr-4 h-10 w-[20%] rounded-full bg-accentLight hover:cursor-pointer disabled:opacity-50"
           >
             <span className="font-bold text-white">Comment</span>

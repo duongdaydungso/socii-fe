@@ -177,13 +177,17 @@ const ProfilePage = () => {
       <div className="border-layout flex min-h-[120vh] min-w-[380px] max-w-[600px] flex-1 shrink-0 flex-col border-x dark:text-white sm:min-w-[600px]">
         <Navbar pageName={user.name} showBackButton />
         <div className="border-layout flex flex-col border-b pb-3">
-          <div className="h-[200px] bg-inherit">
-            <img src={user.wallpaper} alt="" className="h-full object-cover" />
+          <div className="h-[200px] w-full bg-inherit">
+            <img
+              src={user.wallpaper}
+              alt=""
+              className="h-full w-full object-cover"
+            />
           </div>
           <div className="ml-3 -mt-20 mr-4 flex ">
             <div className="items-left flex flex-col">
               <img
-                className="h-36 rounded-full border-[3px] border-lime-50"
+                className="h-36 w-36 rounded-full border-[3px] border-lime-50 object-cover "
                 src={user.avatar}
                 alt="avatar"
               />
@@ -307,7 +311,7 @@ const ProfilePage = () => {
               >
                 <Dialog.Panel className="flex w-full max-w-[600px] transform flex-col rounded-2xl bg-slate-100 p-6 text-left align-middle shadow-xl transition-all dark:bg-dark">
                   <div className="mt-2">
-                    <ProfileEditing />
+                    <ProfileEditing user={user} accessToken={tmpUser.token} />
                   </div>
 
                   <div className="mt-auto">

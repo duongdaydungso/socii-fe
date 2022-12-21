@@ -52,10 +52,14 @@ const ProfileCard = ({ userID, triggerFetch }) => {
   return (
     <div className="border-layout flex items-center justify-between border px-4 pb-4 hover:bg-slate-50 hover:dark:bg-[black]/30">
       <div className="flex items-center space-x-4">
-        <img src={userAvatar} alt="avatar" className="mt-4 w-14 rounded-full" />
-        <div className="mt-2 flex flex-col">
+        <img
+          src={userAvatar}
+          alt="avatar"
+          className="mt-4 h-14 w-14 rounded-full object-cover"
+        />
+        <div className="mt-2 flex w-28 flex-col">
           <span
-            className="text-[14px] font-[800] hover:cursor-pointer dark:text-white"
+            className="max-w-sm text-[14px] font-[800] hover:cursor-pointer dark:text-white"
             onClick={() => {
               navigate(pagePath.PROFILE + "/" + userID, {
                 replace: true,
@@ -65,7 +69,7 @@ const ProfileCard = ({ userID, triggerFetch }) => {
           >
             {userName}
           </span>
-          <p className="text-[11px] text-[black]/50 dark:text-[white]/50">
+          <p className="max-w-sm text-[11px]  text-[black]/50 dark:text-[white]/50">
             {userDescription}
           </p>
         </div>
